@@ -8,6 +8,10 @@ from game_assets import *
 from sound_control import * 
 from main_menu_display import * 
 
+# MUSIC 
+load_music("assets/sounds/synthwave.mp3")
+pygame.mixer.music.play(-1)
+
 clock = pygame.time.Clock()
 
 width, height = 1200, 700
