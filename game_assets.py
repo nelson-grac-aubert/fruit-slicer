@@ -2,23 +2,6 @@ import os
 import sys
 import pygame
 
-def resource_path(relative_path: str) -> str:
-    """
-    Returns the absolute path to an asset, PyInstaller compatible
-    - Through IDE and Python files : uses normal path.
-    - Through Pyinstaller builder for .exe : uses temportary MEIPASS dir. 
-    """
-    try:
-        base_path = sys._MEIPASS
-    except Exception:
-        base_path = os.path.abspath(".")
-
-    return os.path.join(base_path, relative_path)
-
-import os
-import sys
-import pygame
-
 
 def resource_path(relative_path: str) -> str:
     """
@@ -70,6 +53,6 @@ def load_font(path: str, size: int) -> pygame.font.Font:
     
 
 # EXEMPLES
-fruits_images = load_image("assets/images/fruits_assets.png")
-pixel_font = load_font("assets/fonts/pixelify_sans.tff")
-ice_sound = load_sound("assets/sounds/ice.mp3")
+# fruits_images = load_image("assets/images/fruits_assets.png")
+# pixel_font = load_font("assets/fonts/pixelify_sans.ttf", 32)
+# ice_sound = load_sound("assets/sounds/ice.mp3")
