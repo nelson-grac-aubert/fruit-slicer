@@ -5,9 +5,9 @@ import pygame
 
 def resource_path(relative_path: str) -> str:
     """
-    Retourne le chemin absolu vers un asset, compatible PyInstaller.
-    - En IDE : utilise le chemin normal.
-    - En .exe PyInstaller : utilise le dossier temporaire MEIPASS.
+    Returns absolute path to an asset, PyInstaller compatible.
+    - Uses normal path in IDE use
+    - Uses MEIPASS in .exe build
     """
     try:
         base_path = sys._MEIPASS
@@ -27,7 +27,7 @@ def load_image(path: str) -> pygame.Surface:
         image = pygame.image.load(full_path)
         return image.convert_alpha()
     except Exception as e:
-        raise FileNotFoundError(f"Impossible de charger l’image : {full_path}\n{e}")
+        raise FileNotFoundError(f"Can't load image : {full_path}\n{e}")
 
 
 def load_sound(path: str) -> pygame.mixer.Sound:
@@ -38,7 +38,7 @@ def load_sound(path: str) -> pygame.mixer.Sound:
     try:
         return pygame.mixer.Sound(full_path)
     except Exception as e:
-        raise FileNotFoundError(f"Impossible de charger le son : {full_path}\n{e}")
+        raise FileNotFoundError(f"Can't load sound : {full_path}\n{e}")
 
 
 def load_font(path: str, size: int) -> pygame.font.Font:
@@ -49,7 +49,7 @@ def load_font(path: str, size: int) -> pygame.font.Font:
     try:
         return pygame.font.Font(full_path, size)
     except Exception as e:
-        raise FileNotFoundError(f"Impossible de charger la police : {full_path}\n{e}")
+        raise FileNotFoundError(f"Can't load font : {full_path}\n{e}")
     
 
 # EXEMPLES

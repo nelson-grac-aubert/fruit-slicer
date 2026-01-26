@@ -6,6 +6,7 @@ pygame.display.set_caption('Pixel Slicer')
 
 from game_assets import *
 from sound_control import * 
+from main_menu_buttons import * 
 
 clock = pygame.time.Clock()
 
@@ -34,8 +35,10 @@ while running:
 
     # DRAWING
     screen.blit(background, (0, 0))
+    draw_title(screen)
     draw_music_button(screen, music_muted, music_img, music_muted_img, music_rect)
     draw_sound_button(screen, sound_muted, sound_img, sound_muted_img, sound_rect)
+    
 
     # UPDATE
     pygame.display.flip()
