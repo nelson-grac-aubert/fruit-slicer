@@ -23,7 +23,7 @@ sound_img, sound_muted_img, sound_rect = load_sound_images()
 running = True
 while running:
 
-    # Event handling 
+    # EVENTS
     for event in pygame.event.get():
 
         music_muted = button_music_click(event, music_rect, music_muted)
@@ -32,15 +32,13 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    # Drawing
+    # DRAWING
     screen.blit(background, (0, 0))
     draw_music_button(screen, music_muted, music_img, music_muted_img, music_rect)
     draw_sound_button(screen, sound_muted, sound_img, sound_muted_img, sound_rect)
 
-    # Update display
+    # UPDATE
     pygame.display.flip()
-
-    # Frame rate
     clock.tick(60)
 
 pygame.quit()
