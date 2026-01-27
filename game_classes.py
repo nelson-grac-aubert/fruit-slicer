@@ -41,9 +41,9 @@ class FlyingObject:
         rect = rotated.get_rect(center=(self.x, self.y))
         screen.blit(rotated, rect)
 
-        # Letter
+        # LETTER
         box_size = 45
-        offset_y = -110  # Distance from fruit
+        offset_y = -110  # DISTANCE FROM FRUIT
 
         pygame.draw.rect(
             screen,
@@ -51,7 +51,7 @@ class FlyingObject:
             (self.x - box_size//2, self.y + offset_y, box_size, box_size)
         )
 
-        # Center letter on square
+        # CENTER LETTER ON SQUARE
         text_rect = self.text_surface.get_rect(center=(self.x, self.y + offset_y + box_size//2))
         screen.blit(self.text_surface, text_rect)
 

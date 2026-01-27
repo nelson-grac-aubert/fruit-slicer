@@ -49,7 +49,7 @@ def update_all_objects(game_state):
     for obj in active_objects:
         obj.update(game_state)
 
-    # Remove objects that fall off screen
+    # remove objects that fall off screen
     active_objects = [o for o in active_objects if o.y < 800]
 
 def draw_all_fruits(screen):

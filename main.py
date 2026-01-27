@@ -29,56 +29,87 @@ game_state = GameState()
 spawn_cooldown = 0
 
 # Sound init
-music_muted = False
-sound_muted = False
+
 music_img, music_muted_img, music_rect = load_music_images()
 sound_img, sound_muted_img, sound_rect = load_sound_images()
 
-running = True
-while running:
 
-    screen.blit(background, (0, 0))
 
-    # UI
-    draw_title(screen)
-    draw_music_button(screen, music_muted, music_img, music_muted_img, music_rect)
-    draw_sound_button(screen, sound_muted, sound_img, sound_muted_img, sound_rect)
+def main() : 
+    
+    game_state = GameState()
+    spawn_cooldown = 0
+    music_muted = False
+    sound_muted = False
 
-    # Fruits
-    draw_menu_fruits(screen)
-    draw_all_fruits(screen)
+    # Animation
+    button_clicked = False
+    click_timer = 0
+    score_clicked = False
+    score_click_timer = 0
 
-    # Draw buttons BEFORE events (hover needs this)
-    button_rect = button(screen)  # New Game
-    difficulty_rect = draw_difficulty_button(screen, difficulty_levels[difficulty_index])
-    score_rect = draw_score_button(screen)
+    # Diffilcuty
+    difficulty_levels = ["Facile", "Normal", "Difficile"]
+    difficulty_index = 0
 
-    # Events
-    for event in pygame.event.get():
+    while True:
 
-        # Music / sound buttons
-        music_muted = button_music_click(event, music_rect, music_muted)
-        sound_muted = button_sound_click(event, sound_rect, sound_muted)
+        screen.blit(background, (0, 0))
 
-        # Score button
-        if score_button_click(event, score_rect):
-            print("Score ouvert !")
+        draw_title(screen)
+        draw_music_button(screen, music_muted, music_img, music_muted_img, music_rect)
+        draw_sound_button(screen, sound_muted, sound_img, sound_muted_img, sound_rect)
+        draw_menu_fruits(screen)
+        update_all_objects(game_state)
+        draw_all_fruits(screen)
 
-        # New Game button
-        if button_click(event, button_rect):
-            print("Bouton cliqué !")
-            # Ici tu pourras lancer le gameplay :
-            # game_state.state = "GAME"
+        spawn_cooldown += 1
+        if spawn_cooldown >= 60:
+            spawn_fruit()
+            spawn_cooldown = 0
 
-        # Difficulty button
-        if difficulty_button_click(event, difficulty_rect):
-            difficulty_index = (difficulty_index + 1) % len(difficulty_levels)
+        # Draw buttons before events
+        button_rect = button(screen, button_clicked)
+        difficulty_rect = draw_difficulty_button(screen, difficulty_levels[difficulty_index])
+        score_rect = draw_score_button(screen, score_clicked)
 
-        # Quit
-        if event.type == pygame.QUIT:
-            running = False
+        # Events
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                return
 
-    pygame.display.flip()
-    clock.tick(60)
+            music_muted = button_music_click(event, music_rect, music_muted)
+            sound_muted = button_sound_click(event, sound_rect, sound_muted)
+            
+            if score_button_click(event, score_rect):
+                print("Score ouvert !")
+                score_clicked = True
+                score_click_timer = 10
 
-pygame.quit()
+            if button_click(event, button_rect):
+                print("Bouton cliqué !")
+                button_clicked = True
+                click_timer = 10
+
+            if difficulty_button_click(event, difficulty_rect):
+                difficulty_index = (difficulty_index + 1) % len(difficulty_levels)
+
+            if score_button_click(event, score_rect):
+                print("Affichage du score !")
+
+            if event.type == pygame.QUIT:
+                running = False
+
+        # Timer animation
+        if click_timer > 0:
+            click_timer -= 1
+        else:
+            button_clicked = False
+            
+        pygame.display.flip()
+        clock.tick(60)
+
+if __name__ == "__main__" : 
+
+    main()
