@@ -16,7 +16,7 @@ def draw_title(screen) :
 
 
 def draw_rotating_fruit(screen, image_path, position):
-    # --- LOAD IMAGE ON FIRST CALL ---
+    # LOAD IMAGE ON FIRST CALL
     if not hasattr(draw_rotating_fruit, "cache"):
         draw_rotating_fruit.cache = {}  # { path: (image, angle) }
 
@@ -25,16 +25,16 @@ def draw_rotating_fruit(screen, image_path, position):
         draw_rotating_fruit.cache[image_path] = [img, 0]  # [surface, angle]
 
     img, angle = draw_rotating_fruit.cache[image_path]
-
-    # --- UPDATE ANGLE ---
+    
+    # UPDATE ANGLE
     angle = (angle + 3) % 360
     draw_rotating_fruit.cache[image_path][1] = angle
 
-    # --- ROTATE ---
+    # ROTATE
     rotated = pygame.transform.rotate(img, angle)
     rect = rotated.get_rect(center=position)
 
-    # --- DRAW ---
+    # DRAW
     screen.blit(rotated, rect)
 
 def draw_all_fruits(screen):
