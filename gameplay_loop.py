@@ -13,7 +13,8 @@ def get_random_fruit_image() :
         "assets/images/big_watermelon.png",        
         "assets/images/big_strawberry.png",                             
         "assets/images/big_banana.png",           
-        "assets/images/cherry.png"
+        "assets/images/cherry.png",
+        "assets/images/apple.png"
         ]))
 
 

@@ -4,10 +4,7 @@ import pygame
 from game_classes import GameState
 from gameplay_loop import spawn_fruit, update_all_objects, draw_all_fruits
 from game_assets import load_image
-from sound_control import button_music_click, button_sound_click, load_music_images, load_sound_images
-
-# Tu peux importer ton background ici aussi
-
+from sound_control import *
 
 def game_screen(screen, clock):
     """ Game Screen """
@@ -27,6 +24,8 @@ def game_screen(screen, clock):
 
         # DRAW BACKGROUND
         screen.blit(background, (0, 0))
+        draw_music_button(screen, music_muted, music_img, music_muted_img, music_rect)
+        draw_sound_button(screen, sound_muted, sound_img, sound_muted_img, sound_rect)
 
         # UPDATE FRUITS
         update_all_objects(game_state)
@@ -45,11 +44,11 @@ def game_screen(screen, clock):
             if event.type == pygame.QUIT:
                 pygame.quit()
                 return
-
-            # Sound buttons
+            
             music_muted = button_music_click(event, music_rect, music_muted)
             sound_muted = button_sound_click(event, sound_rect, sound_muted)
-
+    
+    
         # DRAW SOUND BUTTONS
         screen.blit(music_muted_img if music_muted else music_img, music_rect)
         screen.blit(sound_muted_img if sound_muted else sound_img, sound_rect)

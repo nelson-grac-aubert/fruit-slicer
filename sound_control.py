@@ -3,8 +3,8 @@ from game_assets import *
 
 def load_music_images():
     """ Loads music button images and returns their pygame rectangle """
-    music_image = load_image("assets/images/music_off.png")
-    music_muted_image = load_image("assets/images/music.png")
+    music_image = load_image("assets/images/music.png")
+    music_muted_image = load_image("assets/images/music_off.png")
     music_image_size = (80,80)
     music_image = pygame.transform.scale(music_image, (music_image_size))
     music_muted_image = pygame.transform.scale(music_muted_image, (music_image_size))
@@ -29,7 +29,7 @@ def load_sound_images():
 
 def draw_music_button(screen, music_muted, music_image, music_muted_image, rect):
     """ Draw music on/off button """
-    screen.blit(music_image if music_muted else music_muted_image, rect)
+    screen.blit(music_muted_image if music_muted else music_image, rect)
 
 def draw_sound_button(screen, sound_muted, sound_mute_icon, sound_unmute_icon, rect):
     """ Draw sound on/off button """
