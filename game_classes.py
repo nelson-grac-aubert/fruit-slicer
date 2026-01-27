@@ -6,6 +6,7 @@ from game_assets import *
 # A game states that handles lives, score, and ice cube freeze effect
 class GameState:
     def __init__(self) : 
+        self.state = "MENU"
         self.score = 0 
         self.lives = 3 
         self.freeze_timer = 0 
