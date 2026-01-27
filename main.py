@@ -27,63 +27,58 @@ difficulty_levels = ["Facile", "Normal", "Difficile"]
 difficulty_index = 0
 
 game_state = GameState()
-spawn_cooldown = 0
 
 # Sound init
-
 music_img, music_muted_img, music_rect = load_music_images()
 sound_img, sound_muted_img, sound_rect = load_sound_images()
 
-def main() : 
-    
+
+def main():
+
     music_muted = False
     sound_muted = False
-
-    # Diffilcuty
-    difficulty_levels = ["Facile", "Normal", "Difficile"]
     difficulty_index = 0
 
     while True:
 
-        screen.blit(background, (0, 0))
+        # MENU SCREEN
+        if game_state.state == "MENU":
 
-        draw_title(screen)
-        draw_music_button(screen, music_muted, music_img, music_muted_img, music_rect)
-        draw_sound_button(screen, sound_muted, sound_img, sound_muted_img, sound_rect)
-        draw_menu_fruits(screen)
+            screen.blit(background, (0, 0))
 
-        # Draw buttons before events
-        button_rect = button(screen)
-        difficulty_rect = draw_difficulty_button(screen, difficulty_levels[difficulty_index])
-        score_rect = draw_score_button(screen)
+            draw_title(screen)
+            draw_music_button(screen, music_muted, music_img, music_muted_img, music_rect)
+            draw_sound_button(screen, sound_muted, sound_img, sound_muted_img, sound_rect)
+            draw_menu_fruits(screen)
 
-        # Events
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                return
+            # Buttons
+            play_rect = button(screen)
+            difficulty_rect = draw_difficulty_button(screen, difficulty_levels[difficulty_index])
+            score_rect = draw_score_button(screen)
 
-            music_muted = button_music_click(event, music_rect, music_muted)
-            sound_muted = button_sound_click(event, sound_rect, sound_muted)
-            
-            if score_button_click(event, score_rect):
-                print("Score ouvert !")
+            # Events
+            for event in pygame.event.get():
 
-            if button_click(event, button_rect):
-                game_screen(screen, clock)
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    return
 
-            if difficulty_button_click(event, difficulty_rect):
-                difficulty_index = (difficulty_index + 1) % len(difficulty_levels)
+                music_muted = button_music_click(event, music_rect, music_muted)
+                sound_muted = button_sound_click(event, sound_rect, sound_muted)
 
-            if score_button_click(event, score_rect):
-                print("Affichage du score !")
+                if button_click(event, play_rect):
+                    game_state.state = "GAME"   
+                    game_screen(screen, clock, game_state)
 
-            if event.type == pygame.QUIT:
-                running = False
-            
-        pygame.display.flip()
-        clock.tick(60)
+                if difficulty_button_click(event, difficulty_rect):
+                    difficulty_index = (difficulty_index + 1) % len(difficulty_levels)
 
-if __name__ == "__main__" : 
+                if score_button_click(event, score_rect):
+                    print("Score ouvert !")
 
+            pygame.display.flip()
+            clock.tick(60)
+
+
+if __name__ == "__main__":
     main()

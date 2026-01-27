@@ -97,6 +97,25 @@ def draw_score_button(screen):
 
     return button_rect
 
+def draw_image_button(screen, image_path, position, hover_scale=1.1):
+    """Draws a PNG button with hover zoom effect."""
+    img = load_image(image_path)
+    rect = img.get_rect(center=position)
+
+    mouse_pos = pygame.mouse.get_pos()
+    hovered = rect.collidepoint(mouse_pos)
+
+    # Zoom on hover
+    if hovered:
+        img = pygame.transform.scale(
+            img,
+            (int(rect.width * hover_scale), int(rect.height * hover_scale))
+        )
+        rect = img.get_rect(center=position)
+
+    screen.blit(img, rect)
+    return rect
+
 
 # Buttons click event
 def button_click(event, button_rect):
@@ -107,6 +126,9 @@ def difficulty_button_click(event, button_rect):
 
 def score_button_click(event, button_rect):
     return event.type == pygame.MOUSEBUTTONDOWN and button_rect.collidepoint(event.pos)
+
+def image_button_click(event, rect):
+    return event.type == pygame.MOUSEBUTTONDOWN and rect.collidepoint(event.pos)
 
 
 # Fruits
