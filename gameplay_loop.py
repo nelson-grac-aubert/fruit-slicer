@@ -72,6 +72,7 @@ def spawn_fruit() :
             get_random_initial_speed())
     active_objects.append(fruit)
 
+
 def spawn_bomb() : 
     """ Spawns a Bomb FlyingObject with its stats randomized """
     bomb = Bomb(get_random_character("Easy"),
@@ -79,12 +80,14 @@ def spawn_bomb() :
             get_random_initial_speed())
     active_objects.append(bomb)
 
+
 def spawn_ice() : 
     """ Spawns and IceCube FlyingObject with its stats randomized """
     ice = IceCube(get_random_character("Easy"),
                   get_random_initial_position(),
                   get_random_initial_speed())
     active_objects.append(ice)
+
 
 def spawn_item() : 
 
@@ -115,7 +118,23 @@ def update_all_objects(game_state):
     # remove objects that fall off screen
     active_objects = [o for o in active_objects if o.y < 800 and -100 < o.x < 1400]
 
+
 def draw_all_fruits(screen):
     for obj in active_objects:
         obj.draw(screen)
-    
+
+
+def handle_key_press(key, game_state):
+    global active_objects
+
+    try:
+        pressed = chr(key).lower()
+    except:
+        return  # touches spéciales ignorées
+
+    # Chercher un objet dont la lettre correspond
+    for obj in active_objects:
+        if obj.letter.lower() == pressed:
+            obj.on_hit(game_state)
+            active_objects.remove(obj)
+            break

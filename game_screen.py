@@ -2,7 +2,7 @@
 
 import pygame
 from game_classes import GameState
-from gameplay_loop import spawn_item, update_all_objects, draw_all_fruits
+from gameplay_loop import spawn_item, update_all_objects, draw_all_fruits, handle_key_press
 from game_assets import load_image
 from sound_control import *
 
@@ -27,11 +27,16 @@ def game_screen(screen, clock):
         draw_music_button(screen, music_muted, music_img, music_muted_img, music_rect)
         draw_sound_button(screen, sound_muted, sound_img, sound_muted_img, sound_rect)
 
-        # UPDATE FRUITS
-        update_all_objects(game_state)
+         # DRAW SOUND BUTTONS
+        screen.blit(music_muted_img if music_muted else music_img, music_rect)
+        screen.blit(sound_muted_img if sound_muted else sound_img, sound_rect)
 
         # DRAW FRUITS
         draw_all_fruits(screen)
+
+        # UPDATE
+        game_state.freeze_timer -= 1
+        update_all_objects(game_state)
 
         # SPAWN FRUITS
         spawn_cooldown += 1
@@ -47,11 +52,9 @@ def game_screen(screen, clock):
             
             music_muted = button_music_click(event, music_rect, music_muted)
             sound_muted = button_sound_click(event, sound_rect, sound_muted)
-    
-    
-        # DRAW SOUND BUTTONS
-        screen.blit(music_muted_img if music_muted else music_img, music_rect)
-        screen.blit(sound_muted_img if sound_muted else sound_img, sound_rect)
+            
+            if event.type == pygame.KEYDOWN:
+                handle_key_press(event.key, game_state)
 
         pygame.display.flip()
         clock.tick(60)
