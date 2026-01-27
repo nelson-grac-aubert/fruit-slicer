@@ -19,34 +19,36 @@ screen = pygame.display.set_mode((width, height))
 
 background = load_image("assets/images/background.png")
 
-# SOUND INIT
-music_muted = False
-sound_muted = False
-music_img, music_muted_img, music_rect = load_music_images()
-sound_img, sound_muted_img, sound_rect = load_sound_images()
+def main() : 
 
-running = True
-while running:
+    # SOUND INIT
+    music_muted = False
+    sound_muted = False
+    music_img, music_muted_img, music_rect = load_music_images()
+    sound_img, sound_muted_img, sound_rect = load_sound_images()
 
-    # EVENTS
-    for event in pygame.event.get():
+    while True:
 
-        music_muted = button_music_click(event, music_rect, music_muted)
-        sound_muted = button_sound_click(event, sound_rect, sound_muted)
+        # EVENTS
+        for event in pygame.event.get():
 
-        if event.type == pygame.QUIT:
-            running = False
+            music_muted = button_music_click(event, music_rect, music_muted)
+            sound_muted = button_sound_click(event, sound_rect, sound_muted)
 
-    # DRAWING
-    screen.blit(background, (0, 0))
-    draw_title(screen)
-    draw_music_button(screen, music_muted, music_img, music_muted_img, music_rect)
-    draw_sound_button(screen, sound_muted, sound_img, sound_muted_img, sound_rect)
-    draw_all_fruits(screen)
-    
+            if event.type == pygame.QUIT:
+                pygame.quit()
 
-    # UPDATE
-    pygame.display.flip()
-    clock.tick(60)
+        # DRAWING
+        screen.blit(background, (0, 0))
+        draw_title(screen)
+        draw_music_button(screen, music_muted, music_img, music_muted_img, music_rect)
+        draw_sound_button(screen, sound_muted, sound_img, sound_muted_img, sound_rect)
+        draw_all_fruits(screen)
+        
+        # UPDATE
+        pygame.display.flip()
+        clock.tick(60)
 
-pygame.quit()
+if __name__ == "__main__" : 
+
+    main()

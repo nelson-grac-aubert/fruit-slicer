@@ -28,11 +28,13 @@ class FlyingObject:
         self.font = load_font("assets/fonts/pixelify_sans.ttf", 32)
         self.text_surface = self.font.render(self.letter, True, (255, 255, 255))
 
-    def update(self):
-        self.y_speed += self.gravity
-        self.x += self.x_speed
-        self.y += self.y_speed
-        self.rotation += self.rotation_speed
+    def update(self, game_state):
+        if not game_state.frozen():
+            self.y_speed += self.gravity
+            self.x += self.x_speed
+            self.y += self.y_speed
+            self.rotation += self.rotation_speed
+
 
     def draw(self, screen):
         rotated = pygame.transform.rotate(self.image, self.rotation)
@@ -54,16 +56,17 @@ class Fruit(FlyingObject):
     def on_miss(self, game_state):
         game_state.lives -= 1
 
+
 class IceCube(FlyingObject):
-    def __init__(self, image, letter, position, speed) :
+    def __init__(self, letter, position, speed) :
         super().__init__(load_image("assets/images/biggest_ice.png"), letter, position, speed)
         
-
     def on_hit(self, game_state):
         game_state.freeze_timer = 120  # 2 seconds at 60 FPS
 
+
 class Bomb(FlyingObject):
-    def __init__(self, image, letter, position, speed) :
+    def __init__(self, letter, position, speed) :
         super().__init__(load_image("assets/images/big_bomb.png"), letter, position, speed)
 
     def on_hit(self, game_state):
