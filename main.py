@@ -4,6 +4,8 @@ pygame.init()
 pygame.mixer.init()
 pygame.display.set_caption('Pixel Slicer')
 
+from game_classes import GameState
+from gameplay_loop import active_objects, spawn_fruit, update_all_objects, draw_all_fruits
 from game_assets import *
 from sound_control import * 
 from main_menu_display import * 
@@ -24,6 +26,10 @@ difficulty_levels = ["Facile", "Normal", "Difficile"]
 difficulty_index = 0
 
 
+game_state = GameState()
+spawn_cooldown = 0
+
+
 # Sound init
 music_muted = False
 sound_muted = False
@@ -36,7 +42,6 @@ click_timer = 0
 score_clicked = False
 score_click_timer = 0
 
-
 running = True
 while running:
 
@@ -45,6 +50,7 @@ while running:
     draw_title(screen)
     draw_music_button(screen, music_muted, music_img, music_muted_img, music_rect)
     draw_sound_button(screen, sound_muted, sound_img, sound_muted_img, sound_rect)
+    draw_menu_fruits(screen)
     draw_all_fruits(screen)
 
     # Draw buttons before events
@@ -89,8 +95,6 @@ while running:
         score_clicked = False
 
         
-
-
     pygame.display.flip()
     clock.tick(60)
 

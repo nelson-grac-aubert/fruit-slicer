@@ -21,11 +21,11 @@ class FlyingObject:
         self.letter = letter
         self.x, self.y = position
         self.x_speed, self.y_speed = speed
-        self.gravity = 0.4
+        self.gravity = 0.3
         self.rotation = 0
         self.rotation_speed = random.randint(2,4)
 
-        self.font = load_font("assets/fonts/pixelify_sans.ttf", 32)
+        self.font = load_font("assets/fonts/roboto.ttf", 50)
         self.text_surface = self.font.render(self.letter, True, (255, 255, 255))
 
     def update(self, game_state):
@@ -41,8 +41,19 @@ class FlyingObject:
         rect = rotated.get_rect(center=(self.x, self.y))
         screen.blit(rotated, rect)
 
-        pygame.draw.rect(screen, (0, 0, 0), (self.x - 20, self.y - 60, 40, 40))
-        screen.blit(self.text_surface, (self.x - 12, self.y - 55))
+        # LETTER
+        box_size = 45
+        offset_y = -110  # DISTANCE FROM FRUIT
+
+        pygame.draw.rect(
+            screen,
+            (0, 0, 0),
+            (self.x - box_size//2, self.y + offset_y, box_size, box_size)
+        )
+
+        # CENTER LETTER ON SQUARE
+        text_rect = self.text_surface.get_rect(center=(self.x, self.y + offset_y + box_size//2))
+        screen.blit(self.text_surface, text_rect)
 
 
 class Fruit(FlyingObject):

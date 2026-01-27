@@ -131,9 +131,7 @@ def draw_rotating_fruit(screen, image_path, position):
     # DRAW
     screen.blit(rotated, rect)
 
-
-
-def draw_all_fruits(screen):
+def draw_menu_fruits(screen):
     """ Draws all fruits """
     screen_w = screen.get_width()
     screen_h = screen.get_height()
@@ -141,10 +139,6 @@ def draw_all_fruits(screen):
     fruits = [
         ("assets/images/big_watermelon.png",        (screen_w * 0.10, screen_h * 0.55)),
         ("assets/images/big_strawberry.png",        (screen_w * 0.90, screen_h * 0.70)),
-        ("assets/images/biggest_ice.png",           (screen_w * 0.50, screen_h * 0.80)),
-        ("assets/images/big_bomb.png",              (screen_w * 0.30, screen_h * 0.35)),
-        ("assets/images/big_banana.png",            (screen_w * 0.70, screen_h * 0.30)),
-        ("assets/images/cherry.png",                (screen_w * 0.90, screen_h * 0.15)),
     ]
 
     for path, pos in fruits:
