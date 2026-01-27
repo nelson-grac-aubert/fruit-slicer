@@ -2,7 +2,7 @@
 
 import pygame
 from game_classes import GameState
-from gameplay_loop import spawn_fruit, update_all_objects, draw_all_fruits
+from gameplay_loop import spawn_item, update_all_objects, draw_all_fruits
 from game_assets import load_image
 from sound_control import *
 
@@ -35,8 +35,8 @@ def game_screen(screen, clock):
 
         # SPAWN FRUITS
         spawn_cooldown += 1
-        if spawn_cooldown >= 50:
-            spawn_fruit()
+        if spawn_cooldown >= 20:
+            spawn_item()
             spawn_cooldown = 0
 
         # EVENTS
