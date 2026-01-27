@@ -5,7 +5,6 @@ pygame.mixer.init()
 pygame.display.set_caption('Pixel Slicer')
 
 from game_classes import GameState
-from gameplay_loop import active_objects, spawn_fruit, update_all_objects, draw_all_fruits
 from game_assets import *
 from sound_control import * 
 from main_menu_display import * 

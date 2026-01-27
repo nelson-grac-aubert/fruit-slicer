@@ -1,7 +1,8 @@
 # game_screen.py
 
 import pygame
-from gameplay_loop import spawn_fruit, update_all_objects, draw_all_fruits
+from game_classes import GameState
+from gameplay_loop import spawn_item, update_all_objects, draw_all_fruits, handle_key_press
 from game_assets import load_image
 from sound_control import *
 from main_menu_display import draw_image_button, image_button_click
@@ -53,6 +54,14 @@ def game_screen(screen, clock, game_state, difficulty):
         spawn_cooldown += 1
         if spawn_cooldown >= spawn_rate:
             spawn_fruit()
+        # UPDATE
+        game_state.freeze_timer -= 1
+        update_all_objects(game_state)
+
+        # SPAWN FRUITS
+        spawn_cooldown += 1
+        if spawn_cooldown >= 20:
+            spawn_item()
             spawn_cooldown = 0
 
         # Events
@@ -70,6 +79,9 @@ def game_screen(screen, clock, game_state, difficulty):
             # Sound buttons
             music_muted = button_music_click(event, music_rect, music_muted)
             sound_muted = button_sound_click(event, sound_rect, sound_muted)
+            
+            if event.type == pygame.KEYDOWN:
+                handle_key_press(event.key, game_state)
 
         pygame.display.flip()
         clock.tick(60)

@@ -23,8 +23,8 @@ class FlyingObject:
         self.x, self.y = position
         self.x_speed, self.y_speed = speed
         self.gravity = 0.3
-        self.rotation = 0
-        self.rotation_speed = random.randint(2,4)
+        self.rotation = random.randint(0,360)
+        self.rotation_speed = random.randint(-6,6)
 
         self.font = load_font("assets/fonts/roboto.ttf", 50)
         self.text_surface = self.font.render(self.letter, True, (255, 255, 255))
@@ -63,6 +63,7 @@ class Fruit(FlyingObject):
         self.points = points
 
     def on_hit(self, game_state):
+        load_sound("assets/sounds/slice1.mp3").play()
         game_state.score += self.points
 
     def on_miss(self, game_state):
@@ -74,6 +75,7 @@ class IceCube(FlyingObject):
         super().__init__(load_image("assets/images/biggest_ice.png"), letter, position, speed)
         
     def on_hit(self, game_state):
+        load_sound("assets/sounds/ice.mp3").play()
         game_state.freeze_timer = 120  # 2 seconds at 60 FPS
 
 
