@@ -14,7 +14,7 @@ screen = pygame.display.set_mode((width, height))
 
 background = load_image("assets/images/background.png")
 
-# SOUND INIT
+# Sound init
 music_muted = False
 sound_muted = False
 music_img, music_muted_img, music_rect = load_music_images()
