@@ -61,9 +61,9 @@ def main() :
 
 
         # Draw buttons before events
-        button_rect = button(screen, button_clicked)
+        button_rect = button(screen)
         difficulty_rect = draw_difficulty_button(screen, difficulty_levels[difficulty_index])
-        score_rect = draw_score_button(screen, score_clicked)
+        score_rect = draw_score_button(screen)
 
         # Events
         for event in pygame.event.get():
