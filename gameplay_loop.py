@@ -37,11 +37,42 @@ def get_random_initial_speed() :
 def spawn_fruit() : 
     """ Spawns a Fruit FlyingObject with all its stats randomized """
     fruit = Fruit(get_random_fruit_image(), 
-            random.choice(["A","B","C", "D"]), #NOM DE LA FONCTION DE YANNIS POUR LES LETTRES
+            random.choice(["A","B","C","D"]), #NOM DE LA FONCTION DE YANNIS POUR LES LETTRES
             get_random_initial_position(),
             get_random_initial_speed())
     active_objects.append(fruit)
-    
+
+def spawn_bomb() : 
+    """ Spawns a Bomb FlyingObject with its stats randomized """
+    bomb = Bomb(random.choice(["W","X","Y","Z"]),
+            get_random_initial_position(),
+            get_random_initial_speed())
+    active_objects.append(bomb)
+
+def spawn_ice() : 
+    """ Spawns and IceCube FlyingObject with its stats randomized """
+    ice = IceCube(random.choice(["L","M","N","O"]),
+                  get_random_initial_position(),
+                  get_random_initial_speed())
+    active_objects.append(ice)
+
+def spawn_item(difficulty) : 
+
+    if difficulty == "Easy":
+        items = [spawn_fruit, spawn_bomb, spawn_ice]
+        weights = [85, 5, 10]
+
+    elif difficulty == "Medium":
+        items = [spawn_fruit, spawn_bomb, spawn_ice]
+        weights = [85, 10, 5]
+
+    else:  # Hard
+        items = [spawn_fruit, spawn_bomb, spawn_ice]
+        weights = [74, 25, 1]
+
+    chosen = random.choices(items, weights=weights, k=1)[0]
+    return chosen()
+
 
 def update_all_objects(game_state):
     """ Applies the update method on all objects """
