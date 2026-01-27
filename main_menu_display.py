@@ -12,7 +12,7 @@ def draw_title(screen) :
     title_size = 128
     
     title_font = pygame.font.Font(resource_path("assets/fonts/pixelify_sans.ttf"), title_size)
-    title_surface = title_font.render("Pixel Cutter", True, title_color)
+    title_surface = title_font.render("Pixel Slicer", True, title_color)
     
     title_rect = title_surface.get_rect(center = title_position)
 
@@ -110,7 +110,7 @@ def button_click(event, button_rect):
 
 
 def draw_rotating_fruit(screen, image_path, position):
-    
+    # LOAD IMAGE ON FIRST CALL
     if not hasattr(draw_rotating_fruit, "cache"):
         draw_rotating_fruit.cache = {}  # { path: (image, angle) }
 
@@ -119,16 +119,16 @@ def draw_rotating_fruit(screen, image_path, position):
         draw_rotating_fruit.cache[image_path] = [img, 0]  # [surface, angle]
 
     img, angle = draw_rotating_fruit.cache[image_path]
-
-    # Update angle
+    
+    # UPDATE ANGLE
     angle = (angle + 3) % 360
     draw_rotating_fruit.cache[image_path][1] = angle
 
-    # Rotate
+    # ROTATE
     rotated = pygame.transform.rotate(img, angle)
     rect = rotated.get_rect(center=position)
 
-    # Draw
+    # DRAW
     screen.blit(rotated, rect)
 
 
@@ -144,7 +144,7 @@ def draw_all_fruits(screen):
         ("assets/images/biggest_ice.png",           (screen_w * 0.50, screen_h * 0.80)),
         ("assets/images/big_bomb.png",              (screen_w * 0.30, screen_h * 0.35)),
         ("assets/images/big_banana.png",            (screen_w * 0.70, screen_h * 0.30)),
-
+        ("assets/images/cherry.png",                (screen_w * 0.90, screen_h * 0.15)),
     ]
 
     for path, pos in fruits:
