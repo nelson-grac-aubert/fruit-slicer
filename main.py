@@ -82,6 +82,12 @@ while running:
         click_timer -= 1
     else:
         button_clicked = False
+
+    if score_click_timer > 0:
+        score_click_timer -= 1
+    else:
+        score_clicked = False
+
         
 
 

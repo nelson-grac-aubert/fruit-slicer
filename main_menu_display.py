@@ -25,7 +25,7 @@ def button(screen, clicked=False):
     button_x = (screen_width - button_width) // 2
     button_y = screen_height // 2 - 100
 
-    color = (199, 0, 131) if not clicked else (0, 139, 245)
+    color = (143, 0, 118) if not clicked else (199, 0, 131)
 
     button_rect = pygame.Rect(button_x, button_y, button_width, button_height)
     pygame.draw.rect(screen, color, button_rect, border_radius=12)
