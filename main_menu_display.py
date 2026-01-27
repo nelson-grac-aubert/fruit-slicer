@@ -1,16 +1,14 @@
 import pygame
 from game_assets import *
 
-
 pygame.init()
 
 # Title
-def draw_title(screen) : 
-    """ Draw main title on main screen"""
-    title_position = (screen.get_width() //2 , 100)
-    title_color = (255, 147,147)
+def draw_title(screen):
+    title_position = (screen.get_width() // 2, 100)
+    title_color = (255, 147, 147)
     title_size = 128
-    
+
     title_font = pygame.font.Font(resource_path("assets/fonts/pixelify_sans.ttf"), title_size)
     title_surface = title_font.render("Pixel Slicer", True, title_color)
     
@@ -18,16 +16,20 @@ def draw_title(screen) :
 
     screen.blit(title_surface, title_rect)
 
-# New game
-def button(screen, clicked=False):
+
+# New game button
+def button(screen):
     button_width, button_height = 300, 100
     screen_width, screen_height = screen.get_size()
-    button_x = (screen_width - button_width) // 2
-    button_y = screen_height // 2 - 100
+    x = (screen_width - button_width) // 2
+    y = screen_height // 2 - 100
 
-    color = (143, 0, 118) if not clicked else (199, 0, 131)
+    mouse_pos = pygame.mouse.get_pos()
+    hovered = pygame.Rect(x, y, button_width, button_height).collidepoint(mouse_pos)
 
-    button_rect = pygame.Rect(button_x, button_y, button_width, button_height)
+    color = (143, 0, 118) if not hovered else (199, 0, 131)
+
+    button_rect = pygame.Rect(x, y, button_width, button_height)
     pygame.draw.rect(screen, color, button_rect, border_radius=12)
 
     font = pygame.font.Font(resource_path("assets/fonts/pixelify_sans.ttf"), 48)
@@ -37,22 +39,30 @@ def button(screen, clicked=False):
 
     return button_rect
 
-# Diffilcuty
+
+# Diffilculty button 
 def draw_difficulty_button(screen, current_level):
     button_width, button_height = 250, 80
     screen_width, screen_height = screen.get_size()
-
-    # Position
     x = (screen_width - button_width) // 2
-    y = screen_height // 2 + 50  
+    y = screen_height // 2 + 50
+
+    mouse_pos = pygame.mouse.get_pos()
+    hovered = pygame.Rect(x, y, button_width, button_height).collidepoint(mouse_pos)
 
     # Color
-    colors = {
-        "Facile": (50, 200, 100),     # green
-        "Normal": (255, 165, 0),      # orange
-        "Difficile": (200, 50, 50)    # red
+    base_colors = {
+        "Facile": (50, 200, 100),
+        "Normal": (255, 165, 0),
+        "Difficile": (200, 50, 50)
     }
-    color = colors.get(current_level, (100, 100, 100))  
+    hover_colors = {
+        "Facile": (80, 255, 130),
+        "Normal": (255, 190, 60),
+        "Difficile": (255, 80, 80)
+    }
+
+    color = hover_colors[current_level] if hovered else base_colors[current_level]
 
     button_rect = pygame.Rect(x, y, button_width, button_height)
     pygame.draw.rect(screen, color, button_rect, border_radius=12)
@@ -64,15 +74,18 @@ def draw_difficulty_button(screen, current_level):
 
     return button_rect
 
-# Score
-def draw_score_button(screen, clicked=False):
+
+# Score button 
+def draw_score_button(screen):
     button_width, button_height = 250, 80
     screen_width, screen_height = screen.get_size()
-
     x = (screen_width - button_width) // 2
     y = screen_height // 2 + 160
 
-    color = (0, 139, 245) if not clicked else (147, 255, 248)
+    mouse_pos = pygame.mouse.get_pos()
+    hovered = pygame.Rect(x, y, button_width, button_height).collidepoint(mouse_pos)
+
+    color = (0, 139, 245) if not hovered else (147, 255, 248)
 
     button_rect = pygame.Rect(x, y, button_width, button_height)
     pygame.draw.rect(screen, color, button_rect, border_radius=12)
@@ -84,39 +97,27 @@ def draw_score_button(screen, clicked=False):
 
     return button_rect
 
-# Event button 
-def score_button_click(event, button_rect):
-    if event.type == pygame.MOUSEBUTTONDOWN:
-        if button_rect.collidepoint(event.pos):
-            print("Score!")
-            return True
-    return False
 
+# Buttons click event
+def button_click(event, button_rect):
+    return event.type == pygame.MOUSEBUTTONDOWN and button_rect.collidepoint(event.pos)
 
 def difficulty_button_click(event, button_rect):
-    if event.type == pygame.MOUSEBUTTONDOWN:
-        if button_rect.collidepoint(event.pos):
-            return True
-    return False
+    return event.type == pygame.MOUSEBUTTONDOWN and button_rect.collidepoint(event.pos)
 
-#Button press
-def button_click(event, button_rect):
-    if event.type == pygame.MOUSEBUTTONDOWN:
-        if button_rect.collidepoint(event.pos):
-            print("New Game lancé!")
-            return True
-    return False
+def score_button_click(event, button_rect):
+    return event.type == pygame.MOUSEBUTTONDOWN and button_rect.collidepoint(event.pos)
 
 
-
+# Fruits
 def draw_rotating_fruit(screen, image_path, position):
     # LOAD IMAGE ON FIRST CALL
     if not hasattr(draw_rotating_fruit, "cache"):
-        draw_rotating_fruit.cache = {}  # { path: (image, angle) }
+        draw_rotating_fruit.cache = {}
 
     if image_path not in draw_rotating_fruit.cache:
         img = load_image(image_path)
-        draw_rotating_fruit.cache[image_path] = [img, 0]  # [surface, angle]
+        draw_rotating_fruit.cache[image_path] = [img, 0]
 
     img, angle = draw_rotating_fruit.cache[image_path]
     
@@ -143,6 +144,3 @@ def draw_menu_fruits(screen):
 
     for path, pos in fruits:
         draw_rotating_fruit(screen, path, pos)
-
-
-
