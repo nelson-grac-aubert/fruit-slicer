@@ -29,8 +29,8 @@ def get_random_initial_position():
 
 def get_random_initial_speed() : 
     """ Return an initial speed (x,y) for the FlyingObject"""
-    x_speed = random.choice([-1, 1]) * random.randint(4, 8)  # towards the center
-    y_speed = -random.randint(10, 17)                         # vers le haut
+    x_speed = random.choice([-1, 1]) * random.randint(6, 8)  # TOWARDS THE CENTER
+    y_speed = -random.randint(10, 17)                        # UP
     return (x_speed, y_speed)
 
 
