@@ -7,9 +7,17 @@ from sound_control import *
 from main_menu_display import draw_image_button, image_button_click
 
 
-def game_screen(screen, clock, game_state):
+def game_screen(screen, clock, game_state, difficulty):
 
     background = load_image("assets/images/background.png")
+
+    # Diffilcuty settings
+    if difficulty == "Easy":
+        spawn_rate = 60
+    elif difficulty == "Medium":
+        spawn_rate = 40
+    else:  # Hard
+        spawn_rate = 25
 
     spawn_cooldown = 0
 
@@ -21,33 +29,33 @@ def game_screen(screen, clock, game_state):
 
     while game_state.state == "GAME":
 
-        # BACKGROUND
+        # Backround
         screen.blit(background, (0, 0))
 
-        # SOUND BUTTONS
+        # Sound buttons
         draw_music_button(screen, music_muted, music_img, music_muted_img, music_rect)
         draw_sound_button(screen, sound_muted, sound_img, sound_muted_img, sound_rect)
 
-        # BACK BUTTON (PNG)
+        # Back button
         back_rect = draw_image_button(
             screen,
             "assets/images/arrow.png",
             position=(80, 80)
         )
 
-        # UPDATE FRUITS
+        # Update fruits
         update_all_objects(game_state)
 
-        # DRAW FRUITS
+        # Draw fruits
         draw_all_fruits(screen)
 
-        # SPAWN FRUITS
+        # Spawn fruits (depends on difficulty)
         spawn_cooldown += 1
-        if spawn_cooldown >= 50:
+        if spawn_cooldown >= spawn_rate:
             spawn_fruit()
             spawn_cooldown = 0
 
-        # EVENTS
+        # Events
         for event in pygame.event.get():
 
             if event.type == pygame.QUIT:

@@ -24,7 +24,6 @@ background = load_image("assets/images/background.png")
 
 # Difficulty
 difficulty_levels = ["Facile", "Normal", "Difficile"]
-difficulty_index = 0
 
 game_state = GameState()
 
@@ -37,11 +36,13 @@ def main():
 
     music_muted = False
     sound_muted = False
+
     difficulty_index = 0
+    current_difficulty = difficulty_levels[difficulty_index]   
 
     while True:
 
-        # MENU SCREEN
+        # Menu screen
         if game_state.state == "MENU":
 
             screen.blit(background, (0, 0))
@@ -53,7 +54,7 @@ def main():
 
             # Buttons
             play_rect = button(screen)
-            difficulty_rect = draw_difficulty_button(screen, difficulty_levels[difficulty_index])
+            difficulty_rect = draw_difficulty_button(screen, current_difficulty)
             score_rect = draw_score_button(screen)
 
             # Events
@@ -67,11 +68,12 @@ def main():
                 sound_muted = button_sound_click(event, sound_rect, sound_muted)
 
                 if button_click(event, play_rect):
-                    game_state.state = "GAME"   
-                    game_screen(screen, clock, game_state)
+                    game_state.state = "GAME"
+                    game_screen(screen, clock, game_state, current_difficulty)  
 
                 if difficulty_button_click(event, difficulty_rect):
                     difficulty_index = (difficulty_index + 1) % len(difficulty_levels)
+                    current_difficulty = difficulty_levels[difficulty_index]   
 
                 if score_button_click(event, score_rect):
                     print("Score ouvert !")
