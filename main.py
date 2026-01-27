@@ -9,6 +9,7 @@ from gameplay_loop import active_objects, spawn_fruit, update_all_objects, draw_
 from game_assets import *
 from sound_control import * 
 from main_menu_display import * 
+from game_screen import game_screen
 
 # Music
 load_music("assets/sounds/synthwave.mp3")
@@ -22,18 +23,14 @@ screen = pygame.display.set_mode((width, height))
 background = load_image("assets/images/background.png")
 
 
-
 # Sound init
 
 music_img, music_muted_img, music_rect = load_music_images()
 sound_img, sound_muted_img, sound_rect = load_sound_images()
 
 
-
 def main() : 
     
-    game_state = GameState()
-    spawn_cooldown = 0
     music_muted = False
     sound_muted = False
 
@@ -55,13 +52,7 @@ def main() :
         draw_music_button(screen, music_muted, music_img, music_muted_img, music_rect)
         draw_sound_button(screen, sound_muted, sound_img, sound_muted_img, sound_rect)
         draw_menu_fruits(screen)
-        update_all_objects(game_state)
-        draw_all_fruits(screen)
 
-        spawn_cooldown += 1
-        if spawn_cooldown >= 60:
-            spawn_fruit()
-            spawn_cooldown = 0
 
         # Draw buttons before events
         button_rect = button(screen, button_clicked)
@@ -83,9 +74,7 @@ def main() :
                 score_click_timer = 10
 
             if button_click(event, button_rect):
-                print("Bouton cliqué !")
-                button_clicked = True
-                click_timer = 10
+                game_screen(screen, clock)
 
             if difficulty_button_click(event, difficulty_rect):
                 difficulty_index = (difficulty_index + 1) % len(difficulty_levels)
