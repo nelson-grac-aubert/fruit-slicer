@@ -48,7 +48,7 @@ def draw_all_fruits(screen):
         ("assets/images/biggest_ice.png",           (screen_w * 0.50, screen_h * 0.80)),
         ("assets/images/big_bomb.png",              (screen_w * 0.30, screen_h * 0.35)),
         ("assets/images/big_banana.png",            (screen_w * 0.70, screen_h * 0.30)),
-
+        ("assets/images/cherry.png",                (screen_w * 0.90, screen_h * 0.15)),
     ]
 
     for path, pos in fruits:
