@@ -35,8 +35,8 @@ def game_screen(screen, clock):
 
         # SPAWN FRUITS
         spawn_cooldown += 1
-        if spawn_cooldown >= 50:
-            spawn_item("Medium")
+        if spawn_cooldown >= 20:
+            spawn_item()
             spawn_cooldown = 0
 
         # EVENTS
