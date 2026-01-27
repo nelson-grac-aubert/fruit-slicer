@@ -35,7 +35,7 @@ def game_screen(screen, clock):
 
         # SPAWN FRUITS
         spawn_cooldown += 1
-        if spawn_cooldown >= 60:
+        if spawn_cooldown >= 50:
             spawn_fruit()
             spawn_cooldown = 0
 

@@ -1,5 +1,3 @@
-import time
-import pygame 
 import random
 
 from game_assets import * 
@@ -14,7 +12,8 @@ def get_random_fruit_image() :
         "assets/images/big_strawberry.png",                             
         "assets/images/big_banana.png",           
         "assets/images/cherry.png",
-        "assets/images/apple.png"
+        "assets/images/apple.png",
+        "assets/images/pineapple.png"
         ]))
 
 
@@ -29,8 +28,8 @@ def get_random_initial_position():
 
 def get_random_initial_speed() : 
     """ Return an initial speed (x,y) for the FlyingObject"""
-    x_speed = random.choice([-1, 1]) * random.randint(3, 5)  # towards the center
-    y_speed = -random.randint(12, 18)                         # vers le haut
+    x_speed = random.choice([-1, 1]) * random.randint(4, 8)  # towards the center
+    y_speed = -random.randint(10, 17)                         # vers le haut
     return (x_speed, y_speed)
 
 
@@ -51,7 +50,7 @@ def update_all_objects(game_state):
         obj.update(game_state)
 
     # remove objects that fall off screen
-    active_objects = [o for o in active_objects if o.y < 800]
+    active_objects = [o for o in active_objects if o.y < 800 and -100 < o.x < 1400]
 
 def draw_all_fruits(screen):
     for obj in active_objects:
