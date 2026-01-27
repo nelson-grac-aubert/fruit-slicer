@@ -22,6 +22,12 @@ screen = pygame.display.set_mode((width, height))
 
 background = load_image("assets/images/background.png")
 
+# Difficulty
+difficulty_levels = ["Facile", "Normal", "Difficile"]
+difficulty_index = 0
+
+game_state = GameState()
+spawn_cooldown = 0
 
 # Sound init
 
