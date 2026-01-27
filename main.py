@@ -52,6 +52,12 @@ while running:
     draw_sound_button(screen, sound_muted, sound_img, sound_muted_img, sound_rect)
     draw_menu_fruits(screen)
     draw_all_fruits(screen)
+    update_all_objects(game_state)
+
+    spawn_cooldown += 1
+    if spawn_cooldown >= 60:
+        spawn_fruit()
+        spawn_cooldown = 0
 
     # Draw buttons before events
     button_rect = button(screen, button_clicked)
@@ -67,7 +73,6 @@ while running:
             print("Score ouvert !")
             score_clicked = True
             score_click_timer = 10
-
 
         if button_click(event, button_rect):
             print("Bouton cliqué !")
