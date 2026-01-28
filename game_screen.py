@@ -1,5 +1,3 @@
-# game_screen.py
-
 import pygame
 from game_classes import GameState
 from gameplay_loop import *
@@ -36,15 +34,15 @@ def game_screen(screen, clock, game_state):
         draw_sound_button(screen, sound_muted, sound_img, sound_muted_img, sound_rect)
         back_rect = draw_image_button(screen,"assets/images/arrow.png",position=(80, 80))
 
-        # Draw fruits
+        # Draw all FlyingObjects
         draw_all_fruits(screen, game_state)
 
-        # UPDATE
+        # Update on each frame
         game_state.freeze_timer -= 1
         if game_state.freeze_timer > 0 : screen.blit(frozen_overlay, (0,0))
         update_all_objects(game_state)
 
-        # HANDLE END OF GAME
+        # Handle game over screen
         if game_state.lives <= 0:
             result = game_over_screen(screen, game_state)
 
@@ -55,7 +53,7 @@ def game_screen(screen, clock, game_state):
                 game_state.state = "MENU"
                 return
             
-        # SPAWN FRUITS
+        # Spawn fruits depending on difficulty
         if game_state.freeze_timer < 0 : 
             spawn_cooldown += 1
         if spawn_cooldown >= spawn_rate :
@@ -81,7 +79,6 @@ def game_screen(screen, clock, game_state):
             if event.type == pygame.KEYDOWN:
                 handle_key_press(event.key, game_state)
 
-            
         pygame.display.flip()
         clock.tick(60)
 
