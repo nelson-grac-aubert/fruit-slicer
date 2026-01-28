@@ -26,21 +26,14 @@ def game_screen(screen, clock, game_state):
         # Difficulty 
         settings = DIFFICULTY_SETTINGS[game_state.difficulty]
         spawn_rate = settings["spawn_rate"]
-        # Backround
-        screen.blit(background, (0, 0))
-        # Draw lives
-        draw_lives(screen, game_state)
 
-        # Sound buttons
+        # Draw UI
+        screen.blit(background, (0, 0))
+        draw_lives(screen, game_state)
+        draw_score(screen, game_state)
         draw_music_button(screen, music_muted, music_img, music_muted_img, music_rect)
         draw_sound_button(screen, sound_muted, sound_img, sound_muted_img, sound_rect)
-
-        # Back button
-        back_rect = draw_image_button(
-            screen,
-            "assets/images/arrow.png",
-            position=(80, 80)
-        )
+        back_rect = draw_image_button(screen,"assets/images/arrow.png",position=(80, 80))
 
         # Draw fruits
         draw_all_fruits(screen, game_state)

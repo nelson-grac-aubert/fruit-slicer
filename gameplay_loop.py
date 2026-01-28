@@ -234,3 +234,10 @@ def reset_gameplay_state(game_state):
     game_state.score = 0
     game_state.freeze_timer = 0
     game_state.active_objects.clear()
+
+def draw_score(screen, game_state):
+    """ Draws current score on top middle of screen """
+    font = load_font("assets/fonts/pixelify_sans.ttf", 120)
+    text = font.render(str(game_state.score), True, (255, 255, 255))
+    rect = text.get_rect(center=(600, 70))  
+    screen.blit(text, rect)
