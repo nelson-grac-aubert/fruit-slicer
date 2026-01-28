@@ -1,10 +1,10 @@
 import pygame
-from game_assets import *
+from game_assets import load_font, load_image, resource_path
 
-pygame.init()
-
-# Title
 def draw_title(screen):
+    """ Draws Title on Main Screen """
+
+    # Centered horizontally, on top vertically
     title_position = (screen.get_width() // 2, 100)
     title_color = (255, 147, 147)
     title_size = 128
@@ -13,25 +13,27 @@ def draw_title(screen):
     title_surface = title_font.render("Pixel Slicer", True, title_color)
     
     title_rect = title_surface.get_rect(center = title_position)
-
     screen.blit(title_surface, title_rect)
 
+def new_game_button(screen):
+    """ Draws New Game button on Main Screen """
 
-# New game button
-def button(screen):
+    # Centered horizontally, below title
     button_width, button_height = 300, 100
     screen_width, screen_height = screen.get_size()
     x = (screen_width - button_width) // 2
     y = screen_height // 2 - 100
 
+    # Hover effect
     mouse_pos = pygame.mouse.get_pos()
     hovered = pygame.Rect(x, y, button_width, button_height).collidepoint(mouse_pos)
-
     color = (143, 0, 118) if not hovered else (199, 0, 131)
 
+    # Rectangle behind text
     button_rect = pygame.Rect(x, y, button_width, button_height)
     pygame.draw.rect(screen, color, button_rect, border_radius=12)
 
+    # Text
     font = pygame.font.Font(resource_path("assets/fonts/pixelify_sans.ttf"), 48)
     text_surface = font.render("New Game", True, (255, 255, 255))
     text_rect = text_surface.get_rect(center=button_rect.center)
@@ -40,17 +42,20 @@ def button(screen):
     return button_rect
 
 
-# Diffilculty button 
 def draw_difficulty_button(screen, current_level):
+    """ Draw difficulty button on main screen """
+
+    # Centered horizontally, below new game button
     button_width, button_height = 300, 100
     screen_width, screen_height = screen.get_size()
     x = (screen_width - button_width) // 2
     y = screen_height // 2 + 50
 
+    # Hover
     mouse_pos = pygame.mouse.get_pos()
     hovered = pygame.Rect(x, y, button_width, button_height).collidepoint(mouse_pos)
 
-    # Color
+    # Color depends on current difficulty
     base_colors = {
         "Easy": (50, 200, 100),
         "Medium": (255, 165, 0),
@@ -61,12 +66,13 @@ def draw_difficulty_button(screen, current_level):
         "Medium": (255, 190, 60),
         "Hard": (255, 80, 80)
     }
-
     color = hover_colors[current_level] if hovered else base_colors[current_level]
 
+    # Rectangle behind text
     button_rect = pygame.Rect(x, y, button_width, button_height)
     pygame.draw.rect(screen, color, button_rect, border_radius=12)
 
+    # Text depends on difficulty
     font = pygame.font.Font(resource_path("assets/fonts/pixelify_sans.ttf"), 36)
     text_surface = font.render(f"Difficulty : {current_level}", True, (255, 255, 255))
     text_rect = text_surface.get_rect(center=button_rect.center)
@@ -74,21 +80,25 @@ def draw_difficulty_button(screen, current_level):
 
     return button_rect
 
-# Score button 
 def draw_score_button(screen):
+    """ Draw score screen button under difficulty button """
+
+    # Position
     button_width, button_height = 300, 100
     screen_width, screen_height = screen.get_size()
     x = (screen_width - button_width) // 2
     y = screen_height // 2 + 200
 
+    # Hover effect
     mouse_pos = pygame.mouse.get_pos()
     hovered = pygame.Rect(x, y, button_width, button_height).collidepoint(mouse_pos)
-
     color = (0, 139, 245) if not hovered else (147, 255, 248)
 
+    # Rectangle behind text
     button_rect = pygame.Rect(x, y, button_width, button_height)
     pygame.draw.rect(screen, color, button_rect, border_radius=12)
 
+    # Text
     font = pygame.font.Font(resource_path("assets/fonts/pixelify_sans.ttf"), 40)
     text_surface = font.render("Score", True, (255, 255, 255))
     text_rect = text_surface.get_rect(center=button_rect.center)
@@ -97,7 +107,7 @@ def draw_score_button(screen):
     return button_rect
 
 def draw_image_button(screen, image_path, position, hover_scale=1.1):
-    """Draws a PNG button with hover zoom effect."""
+    """ Draws the back to main menu button with hover zoom effect."""
     img = load_image(image_path)
     rect = img.get_rect(center=position)
 
@@ -117,7 +127,7 @@ def draw_image_button(screen, image_path, position, hover_scale=1.1):
 
 
 # Buttons click event
-def button_click(event, button_rect):
+def game_button_click(event, button_rect):
     return event.type == pygame.MOUSEBUTTONDOWN and button_rect.collidepoint(event.pos)
 
 def difficulty_button_click(event, button_rect):
@@ -130,9 +140,9 @@ def back_button_click(event, rect):
     return event.type == pygame.MOUSEBUTTONDOWN and rect.collidepoint(event.pos)
 
 
-# Fruits
 def draw_rotating_fruit(screen, image_path, position):
-    # LOAD IMAGE ON FIRST CALL
+    """ Draw a decorative fruit on main screen """
+    # Load image on first call
     if not hasattr(draw_rotating_fruit, "cache"):
         draw_rotating_fruit.cache = {}
 
@@ -142,25 +152,28 @@ def draw_rotating_fruit(screen, image_path, position):
 
     img, angle = draw_rotating_fruit.cache[image_path]
     
-    # UPDATE ANGLE
+    # Update angle
     angle = (angle + 3) % 360
     draw_rotating_fruit.cache[image_path][1] = angle
 
-    # ROTATE
+    # Rotate
     rotated = pygame.transform.rotate(img, angle)
     rect = rotated.get_rect(center=position)
 
-    # DRAW
+    # Draw
     screen.blit(rotated, rect)
 
 def draw_menu_fruits(screen):
-    """ Draws all fruits """
+    """ Draws menu rotating fruits on main screen """
+
+    # Screen size
     screen_w = screen.get_width()
     screen_h = screen.get_height()
 
-    fruits = [
-        ("assets/images/big_watermelon.png",        (screen_w * 0.10, screen_h * 0.55)),
-        ("assets/images/big_strawberry.png",        (screen_w * 0.90, screen_h * 0.70)),
+    # Image, position
+    fruits = [                  
+        ("assets/images/big_watermelon.png", (screen_w * 0.10, screen_h * 0.55)), 
+        ("assets/images/big_strawberry.png", (screen_w * 0.90, screen_h * 0.70)),
     ]
 
     for path, pos in fruits:

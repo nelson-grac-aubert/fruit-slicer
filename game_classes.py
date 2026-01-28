@@ -3,25 +3,25 @@ import random
 
 from game_assets import *
 
-# A game states that handles lives, score, and ice cube freeze effect
 class GameState:
     def __init__(self) : 
-        self.state = "MENU"
-        self.score = 0 
-        self.lives = 3 
-        self.freeze_timer = 0 
-        self.active_objects = []
-        self.difficulty = "Easy"
-        self.combo_count = 0
-        self.combo_timer = 0
-        self.score_popup = None
+        self.state = "MENU"         # Or "GAME" or "SCOREBOARD"
+        self.score = 0              # Starting score
+        self.lives = 3              # Starting lives
+        self.freeze_timer = 0       # Freeze timer
+        self.active_objects = []    # All items currently on screen
+        self.difficulty = "Easy"    # Or "Medium" or "Hard"
+        self.combo_count = 0        # Amount of fruits cut in a short time
+        self.combo_timer = 0        # To evaluate the short time
+        self.score_popup = None     # Popup to display combo bonus score
 
     def frozen(self):
         """ True for 3-5 seconds seconds after activating ice cube """
         return self.freeze_timer > 0
 
     def register_hit(self):
-        """Called each time a fruit is hit to update combo logic."""
+        """ Called each time a fruit is hit to update combo logic """
+        # Calculate miliseconds using pygame
         now = pygame.time.get_ticks()
 
         # Reset combo if too slow
@@ -42,9 +42,10 @@ class GameState:
         return 0
     
     def show_score_popup(self, text):
+        """ Gives the combo text, its miliseconds duration, its transparency (255 = 1)"""
         self.score_popup = {
             "text": text,
-            "timer": 600,   # MS Duration
+            "timer": 600,   
             "alpha": 255
         }
 
@@ -63,7 +64,7 @@ class FlyingObject:
         self.text_surface = self.font.render(self.letter, True, (255, 255, 255))
 
     def update(self, game_state):
-        """ Move the object """
+        """ Move the object on each frame """
         if not game_state.frozen():
             self.y_speed += self.gravity
             self.x += self.x_speed
@@ -77,16 +78,16 @@ class FlyingObject:
         rect = rotated.get_rect(center=(self.x, self.y))
         screen.blit(rotated, rect)
 
-        # LETTER
+        # Letter black square
         box_size = 45
-        offset_y = -110  # DISTANCE FROM FRUIT
+        offset_y = -110  # Distance from fruit
 
         rect_surface = pygame.Surface((box_size, box_size), pygame.SRCALPHA)
-        rect_surface.fill((0, 0, 0, 120))  # 120 = ALPHA TRANSPARENCE (0-255)
+        rect_surface.fill((0, 0, 0, 120))  # 120 = Alpha transparency (0-255)
         screen.blit(rect_surface, (self.x - box_size//2, self.y + offset_y))
 
 
-        # CENTER LETTER ON SQUARE
+        # Center letter on the black square
         text_rect = self.text_surface.get_rect(center=(self.x, self.y + offset_y + box_size//2))
         screen.blit(self.text_surface, text_rect)
 
@@ -97,6 +98,7 @@ class Fruit(FlyingObject):
         self.points = points
 
     def on_hit(self, game_state):
+        """ When the object letter is input by the player """
         load_sound("assets/sounds/slice1.mp3").play()
         game_state.score += self.points
         bonus = game_state.register_hit()
@@ -105,8 +107,8 @@ class Fruit(FlyingObject):
             game_state.show_score_popup(f"COMBO +{bonus}!")
 
 
-
     def on_miss(self, game_state):
+        """ When the object disappears from bottom of the screen """
         game_state.lives -= 1
 
 
@@ -115,6 +117,7 @@ class IceCube(FlyingObject):
         super().__init__(load_image("assets/images/biggest_ice.png"), letter, position, speed)
         
     def on_hit(self, game_state):
+        """ When the object letter is input by the player """
         load_sound("assets/sounds/ice.mp3").play()
         game_state.freeze_timer = random.randint(180,300)  # 3-5 seconds at 60 FPS
 
@@ -124,4 +127,5 @@ class Bomb(FlyingObject):
         super().__init__(load_image("assets/images/big_bomb.png"), letter, position, speed)
 
     def on_hit(self, game_state):
+        """ When the object letter is input by the player """
         game_state.lives -= 3 

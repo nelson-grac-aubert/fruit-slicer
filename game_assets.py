@@ -4,11 +4,9 @@ import pygame
 
 
 def resource_path(relative_path: str) -> str:
-    """
-    Returns absolute path to an asset, PyInstaller compatible.
+    """ Returns absolute path to an asset, PyInstaller compatible.
     - Uses normal path in IDE use
-    - Uses MEIPASS in .exe build
-    """
+    - Uses MEIPASS in .exe build """
     try:
         base_path = sys._MEIPASS
     except Exception:
@@ -18,10 +16,8 @@ def resource_path(relative_path: str) -> str:
 
 
 def load_image(path: str) -> pygame.Surface:
-    """
-    Load an image through resource_path
-    convert_alpha for a transparent background .png
-    """
+    """ Load an image through resource_path
+        convert_alpha for a transparent background .png """
     full_path = resource_path(path)
     try:
         image = pygame.image.load(full_path)
@@ -30,9 +26,7 @@ def load_image(path: str) -> pygame.Surface:
         raise FileNotFoundError(f"Can't load image : {full_path}\n{e}")
 
 def load_music(path: str) -> None:
-    """
-    Load music through resource_path
-    """
+    """ Load music through resource_path """
     full_path = resource_path(path)
     try:
         pygame.mixer.music.load(full_path)
@@ -40,9 +34,7 @@ def load_music(path: str) -> None:
         raise FileNotFoundError(f"Can't load music : {full_path}\n{e}")
 
 def load_sound(path: str) -> pygame.mixer.Sound:
-    """
-    Load sound through resource_path
-    """
+    """ Load sound through resource_path """
     full_path = resource_path(path)
     try:
         return pygame.mixer.Sound(full_path)
@@ -51,17 +43,10 @@ def load_sound(path: str) -> pygame.mixer.Sound:
 
 
 def load_font(path: str, size: int) -> pygame.font.Font:
-    """
-    Load font through resource_path
-    """
+    """ Load font through resource_path """
     full_path = resource_path(path)
     try:
         return pygame.font.Font(full_path, size)
     except Exception as e:
         raise FileNotFoundError(f"Can't load font : {full_path}\n{e}")
     
-
-# EXEMPLES
-# fruits_images = load_image("assets/images/fruits_assets.png")
-# pixel_font = load_font("assets/fonts/pixelify_sans.ttf", 32)
-# ice_sound = load_sound("assets/sounds/ice.mp3")
