@@ -12,11 +12,41 @@ class GameState:
         self.freeze_timer = 0 
         self.active_objects = []
         self.difficulty = "Easy"
+        self.combo_count = 0
+        self.combo_timer = 0
+        self.score_popup = None
 
     def frozen(self):
         """ True for 3-5 seconds seconds after activating ice cube """
         return self.freeze_timer > 0
 
+    def register_hit(self):
+        """Called each time a fruit is hit to update combo logic."""
+        now = pygame.time.get_ticks()
+
+        # Reset combo if too slow
+        if now - self.combo_timer > 600:  # 0.6 seconds max window
+            self.combo_count = 0
+
+        self.combo_count += 1
+        self.combo_timer = now
+
+        # Return combo bonus
+        if self.combo_count == 2 and now - self.combo_timer <= 200:
+            return 2  # +2 points for 2 fruits cut in 200ms
+        if self.combo_count == 3 and now - self.combo_timer <= 400:
+            return 3  # +3 points for 3 fruits cut in 400ms
+        if self.combo_count == 4 and now - self.combo_timer <= 600:
+            return 4  # +6 points for 2 fruits cut in 600ms
+
+        return 0
+    
+    def show_score_popup(self, text):
+        self.score_popup = {
+            "text": text,
+            "timer": 600,   # MS Duration
+            "alpha": 255
+        }
 
 # All objects flying across screens
 class FlyingObject:
@@ -69,6 +99,12 @@ class Fruit(FlyingObject):
     def on_hit(self, game_state):
         load_sound("assets/sounds/slice1.mp3").play()
         game_state.score += self.points
+        bonus = game_state.register_hit()
+        game_state.score += bonus
+        if bonus > 0:
+            game_state.show_score_popup(f"COMBO +{bonus}!")
+
+
 
     def on_miss(self, game_state):
         game_state.lives -= 1
