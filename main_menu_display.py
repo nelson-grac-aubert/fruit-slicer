@@ -106,9 +106,10 @@ def draw_score_button(screen):
 
     return button_rect
 
-def draw_image_button(screen, image_path, position, hover_scale=1.1):
+def draw_back_button(screen, position, hover_scale=1.15):
     """ Draws the back to main menu button with hover zoom effect."""
-    img = load_image(image_path)
+    
+    img = load_image("assets/images/arrow.png")
     rect = img.get_rect(center=position)
 
     mouse_pos = pygame.mouse.get_pos()

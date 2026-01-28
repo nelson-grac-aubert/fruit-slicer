@@ -3,7 +3,8 @@ from game_classes import GameState
 from gameplay_loop import *
 from game_assets import load_image
 from sound_control import *
-from main_menu_display import draw_image_button, back_button_click
+from main_menu_display import draw_back_button, back_button_click
+from game_over import save_final_score, game_over_screen
 from difficulty_settings import DIFFICULTY_SETTINGS
 
 def game_screen(screen, clock, game_state):
@@ -32,7 +33,7 @@ def game_screen(screen, clock, game_state):
         draw_score_popup(screen, game_state)
         draw_music_button(screen, music_muted, music_img, music_muted_img, music_rect)
         draw_sound_button(screen, sound_muted, sound_img, sound_muted_img, sound_rect)
-        back_rect = draw_image_button(screen,"assets/images/arrow.png",position=(80, 80))
+        back_rect = draw_back_button(screen,position=(80, 80))
 
         # Draw all FlyingObjects
         draw_all_fruits(screen, game_state)
@@ -44,7 +45,8 @@ def game_screen(screen, clock, game_state):
 
         # Handle game over screen
         if game_state.lives <= 0:
-            result = game_over_screen(screen, game_state)
+            final_score = save_final_score(game_state)
+            result = game_over_screen(screen, final_score)
 
             if result == "RESTART":
                 return "RESTART"

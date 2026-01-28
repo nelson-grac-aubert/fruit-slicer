@@ -11,6 +11,7 @@ from sound_control import *
 from main_menu_display import * 
 from game_screen import game_screen
 from gameplay_loop import * 
+from score_screen import score_screen
 
 # Music
 load_music("assets/sounds/synthwave.mp3")
@@ -72,15 +73,25 @@ def main():
 
                         if decision == "RESTART":
                             continue   # Start new game
-                        break          # Back to main menu
+                        # elif decision == "SAVE" :
+                        #     FUNCTION TO SAVE PLAYER NAME AND SCORE
 
+                        break          # Back to main menu
+                        
                 if difficulty_button_click(event, difficulty_rect):
                     difficulty_index = (difficulty_index + 1) % len(difficulty_levels)
                     current_difficulty = difficulty_levels[difficulty_index] 
                     game_state.difficulty = current_difficulty  
 
                 if score_button_click(event, score_rect):
-                    print("Score screen opened !") # Placeholder for menu screen 
+                    decision, music_muted, sound_muted = score_screen(
+                    screen, clock, game_state, background,
+                    music_muted, sound_muted,
+                    music_img, music_muted_img, music_rect,
+                    sound_img, sound_muted_img, sound_rect)
+                    
+                    if decision == "QUIT":
+                        return
 
             pygame.display.flip()
             clock.tick(60)
