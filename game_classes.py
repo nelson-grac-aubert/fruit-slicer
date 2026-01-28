@@ -11,6 +11,7 @@ class GameState:
         self.lives = 3 
         self.freeze_timer = 0 
         self.active_objects = []
+        self.difficulty = "Easy"
 
     def frozen(self):
         return self.freeze_timer > 0

@@ -1,5 +1,6 @@
 import random
 
+from difficulty_settings import DIFFICULTY_SETTINGS
 from game_assets import * 
 from game_classes import *
 
@@ -26,8 +27,9 @@ def get_used_characters(game_state) :
 
 def get_random_character(difficulty, game_state) :
     easy_list = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
-    medium_list = easy_list + ['0','1','2','3','4','5','6','7','8','9','²']
-    hard_list = medium_list + ['&','é','"',"'",'(','-','è','_','ç','à',')','=','^','$','ù','*','<',',',';',':','!']
+    medium_list = easy_list + ['0','1','2','3','4','5','6','7','8','9']
+    hard_list = medium_list + ['²']
+
     in_use_characters = get_used_characters(game_state)
 
     if difficulty == "Easy":
@@ -76,7 +78,7 @@ def spawn_fruit(game_state) :
     pos = get_random_initial_position()
     speed = get_random_initial_speed(pos[0])
     fruit = Fruit(get_random_fruit_image(),
-                  get_random_character("Easy", game_state),
+                  get_random_character(game_state.difficulty, game_state),
                   pos,
                   speed)
     game_state.active_objects.append(fruit)
@@ -87,7 +89,7 @@ def spawn_bomb(game_state) :
     """ Spawns a Bomb FlyingObject with its stats randomized """
     pos = get_random_initial_position()
     speed = get_random_initial_speed(pos[0])
-    bomb = Bomb(get_random_character("Easy", game_state), pos, speed)
+    bomb = Bomb(get_random_character(game_state.difficulty, game_state), pos, speed)
     game_state.active_objects.append(bomb)
 
 
@@ -95,24 +97,15 @@ def spawn_ice(game_state) :
     """ Spawns and IceCube FlyingObject with its stats randomized """
     pos = get_random_initial_position()
     speed = get_random_initial_speed(pos[0])
-    ice = IceCube(get_random_character("Easy", game_state), pos, speed)
+    ice = IceCube(get_random_character(game_state.difficulty, game_state), pos, speed)
     game_state.active_objects.append(ice)
 
 
-def spawn_item(game_state) : 
-    """ Handles proportion of each item depending on difficulty """
-    difficulty = "Easy"
-    if difficulty == "Easy":
-        items = [spawn_fruit, spawn_bomb, spawn_ice]
-        weights = [85, 5, 10]
+def spawn_item(game_state):
+    settings = DIFFICULTY_SETTINGS[game_state.difficulty]
 
-    elif difficulty == "Medium":
-        items = [spawn_fruit, spawn_bomb, spawn_ice]
-        weights = [85, 10, 5]
-
-    else:  # Hard
-        items = [spawn_fruit, spawn_bomb, spawn_ice]
-        weights = [74, 25, 1]
+    items = [spawn_fruit, spawn_bomb, spawn_ice]
+    weights = settings["weights"]
 
     chosen = random.choices(items, weights=weights, k=1)[0]
     return chosen(game_state)

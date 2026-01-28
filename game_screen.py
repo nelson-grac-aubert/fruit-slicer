@@ -6,6 +6,7 @@ from gameplay_loop import *
 from game_assets import load_image
 from sound_control import *
 from main_menu_display import draw_image_button, image_button_click
+from difficulty_settings import DIFFICULTY_SETTINGS
 
 def game_screen(screen, clock, game_state):
 
@@ -22,6 +23,9 @@ def game_screen(screen, clock, game_state):
 
     while game_state.state == "GAME":
 
+        # Difficulty 
+        settings = DIFFICULTY_SETTINGS[game_state.difficulty]
+        spawn_rate = settings["spawn_rate"]
         # Backround
         screen.blit(background, (0, 0))
         # Draw lives
@@ -59,7 +63,7 @@ def game_screen(screen, clock, game_state):
             
         # SPAWN FRUITS
         spawn_cooldown += 1
-        if spawn_cooldown >= 50:
+        if spawn_cooldown >= spawn_rate :
             spawn_item(game_state)
             spawn_cooldown = 0
 

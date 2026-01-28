@@ -80,7 +80,8 @@ def main():
 
                 if difficulty_button_click(event, difficulty_rect):
                     difficulty_index = (difficulty_index + 1) % len(difficulty_levels)
-                    current_difficulty = difficulty_levels[difficulty_index]   
+                    current_difficulty = difficulty_levels[difficulty_index] 
+                    game_state.difficulty = current_difficulty  
 
                 if score_button_click(event, score_rect):
                     print("Score ouvert !")
