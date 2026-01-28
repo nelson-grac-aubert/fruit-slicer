@@ -117,7 +117,7 @@ def draw_image_button(screen, image_path, position, hover_scale=1.1):
 
 
 # Buttons click event
-def button_click(event, button_rect):
+def game_button_click(event, button_rect):
     return event.type == pygame.MOUSEBUTTONDOWN and button_rect.collidepoint(event.pos)
 
 def difficulty_button_click(event, button_rect):
