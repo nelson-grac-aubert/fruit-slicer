@@ -25,7 +25,7 @@ class GameState:
         now = pygame.time.get_ticks()
 
         # Reset combo if too slow
-        if now - self.combo_timer > 400:  # 0.4 seconds max window
+        if now - self.combo_timer > 600:  # 0.6 seconds max window
             self.combo_count = 0
 
         self.combo_count += 1
@@ -33,9 +33,11 @@ class GameState:
 
         # Return combo bonus
         if self.combo_count == 2 and now - self.combo_timer <= 200:
-            return 2  # +2 points
+            return 2  # +2 points for 2 fruits cut in 200ms
         if self.combo_count == 3 and now - self.combo_timer <= 400:
-            return 3  # +3 points
+            return 3  # +3 points for 3 fruits cut in 400ms
+        if self.combo_count == 4 and now - self.combo_timer <= 600:
+            return 4  # +6 points for 2 fruits cut in 600ms
 
         return 0
     
