@@ -27,7 +27,7 @@ def get_used_characters(active_objects) :
     return in_use_caracters
 
 def get_random_character(difficulty) :
-    easy_list = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+    easy_list = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
     medium_list = easy_list + ['0','1','2','3','4','5','6','7','8','9','²']
     hard_list = medium_list + ['&','é','"',"'",'(','-','è','_','ç','à',')','=','^','$','ù','*','<',',',';',':','!']
     in_use_characters = get_used_characters(active_objects)
@@ -53,14 +53,14 @@ def get_random_initial_position():
     SCREEN_WIDTH = 1200
     return (
         random.choice([SCREEN_WIDTH + 100, -100]),   # LEFT OR RIGHT
-        random.randint(SCREEN_HEIGHT//2, SCREEN_HEIGHT) # VERTICAL
+        random.randint(SCREEN_HEIGHT//3, SCREEN_HEIGHT//2) # VERTICAL
     )
 
 
 def get_random_initial_speed() : 
     """ Return an initial speed (x,y) for the FlyingObject"""
-    x_speed = random.choice([-1, 1]) * random.randint(6, 8)  # TOWARDS THE CENTER
-    y_speed = -random.randint(10, 17)                        # UP
+    x_speed = random.choice([-1, 1]) * random.randint(4, 6)  # TOWARDS THE CENTER
+    y_speed = -random.randint(2, 4)                        # UP
     return (x_speed, y_speed)
 
 

@@ -12,14 +12,6 @@ def game_screen(screen, clock, game_state, difficulty):
 
     background = load_image("assets/images/background.png")
 
-    # Diffilcuty settings
-    if difficulty == "Easy":
-        spawn_rate = 60
-    elif difficulty == "Medium":
-        spawn_rate = 40
-    else:  # Hard
-        spawn_rate = 25
-
     spawn_cooldown = 0
 
     # Sound buttons
@@ -50,17 +42,14 @@ def game_screen(screen, clock, game_state, difficulty):
         # Draw fruits
         draw_all_fruits(screen)
 
-        # Spawn fruits (depends on difficulty)
-        spawn_cooldown += 1
-        if spawn_cooldown >= spawn_rate:
-            spawn_fruit()
         # UPDATE
         game_state.freeze_timer -= 1
+        if game_state.freeze_timer > 0 : screen.blit(load_image("assets/images/frozen_state.png"), (0,0))
         update_all_objects(game_state)
 
         # SPAWN FRUITS
         spawn_cooldown += 1
-        if spawn_cooldown >= 20:
+        if spawn_cooldown >= 40:
             spawn_item()
             spawn_cooldown = 0
 

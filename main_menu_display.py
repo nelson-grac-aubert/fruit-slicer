@@ -9,7 +9,7 @@ def draw_title(screen):
     title_color = (255, 147, 147)
     title_size = 128
 
-    title_font = pygame.font.Font(resource_path("assets/fonts/pixelify_sans.ttf"), title_size)
+    title_font = load_font(("assets/fonts/pixelify_sans.ttf"), title_size)
     title_surface = title_font.render("Pixel Slicer", True, title_color)
     
     title_rect = title_surface.get_rect(center = title_position)

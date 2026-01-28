@@ -22,7 +22,7 @@ screen = pygame.display.set_mode((width, height))
 background = load_image("assets/images/background.png")
 
 # Difficulty
-difficulty_levels = ["Facile", "Normal", "Difficile"]
+difficulty_levels = ["Easy", "Medium", "Hard"]
 
 game_state = GameState()
 

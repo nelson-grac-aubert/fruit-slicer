@@ -22,7 +22,7 @@ class FlyingObject:
         self.letter = letter
         self.x, self.y = position
         self.x_speed, self.y_speed = speed
-        self.gravity = 0.3
+        self.gravity = 0.04
         self.rotation = random.randint(0,360)
         self.rotation_speed = random.randint(-6,6)
 
