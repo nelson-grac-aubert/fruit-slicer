@@ -14,6 +14,7 @@ class GameState:
         self.difficulty = "Easy"
 
     def frozen(self):
+        """ True for two seconds after activating ice cube """
         return self.freeze_timer > 0
 
 
@@ -32,6 +33,7 @@ class FlyingObject:
         self.text_surface = self.font.render(self.letter, True, (255, 255, 255))
 
     def update(self, game_state):
+        """ Move the object """
         if not game_state.frozen():
             self.y_speed += self.gravity
             self.x += self.x_speed
@@ -40,6 +42,7 @@ class FlyingObject:
 
 
     def draw(self, screen):
+        """ Blits the object and its letter on the screen """
         rotated = pygame.transform.rotate(self.image, self.rotation)
         rect = rotated.get_rect(center=(self.x, self.y))
         screen.blit(rotated, rect)
@@ -48,11 +51,10 @@ class FlyingObject:
         box_size = 45
         offset_y = -110  # DISTANCE FROM FRUIT
 
-        pygame.draw.rect(
-            screen,
-            (0, 0, 0),
-            (self.x - box_size//2, self.y + offset_y, box_size, box_size)
-        )
+        rect_surface = pygame.Surface((box_size, box_size), pygame.SRCALPHA)
+        rect_surface.fill((0, 0, 0, 120))  # 120 = ALPHA TRANSPARENCE (0-255)
+        screen.blit(rect_surface, (self.x - box_size//2, self.y + offset_y))
+
 
         # CENTER LETTER ON SQUARE
         text_rect = self.text_surface.get_rect(center=(self.x, self.y + offset_y + box_size//2))
