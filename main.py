@@ -31,9 +31,9 @@ sound_img, sound_muted_img, sound_rect = load_sound_images()
 
 def main():
 
+    # Initialize variables
     music_muted = False
     sound_muted = False
-
     difficulty_levels = ["Easy", "Medium", "Hard"]
     difficulty_index = 0
     current_difficulty = difficulty_levels[difficulty_index]  
