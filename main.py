@@ -50,7 +50,7 @@ def main():
             draw_music_button(screen, music_muted, music_img, music_muted_img, music_rect)
             draw_sound_button(screen, sound_muted, sound_img, sound_muted_img, sound_rect)
             draw_menu_fruits(screen)
-            play_rect = button(screen)
+            play_rect = new_game_button(screen)
             difficulty_rect = draw_difficulty_button(screen, current_difficulty)
             score_rect = draw_score_button(screen)
 
