@@ -241,3 +241,24 @@ def draw_score(screen, game_state):
     text = font.render(str(game_state.score), True, (255, 255, 255))
     rect = text.get_rect(center=(600, 70))  
     screen.blit(text, rect)
+
+def draw_score_popup(screen, game_state):
+    if not game_state.score_popup:
+        return
+
+    popup = game_state.score_popup
+    font = load_font("assets/fonts/pixelify_sans.ttf", 36)
+
+    # Update
+    popup["timer"] -= 16
+    popup["alpha"] -= 4
+
+    if popup["timer"] <= 0 or popup["alpha"] <= 0:
+        game_state.score_popup = None
+        return
+
+    # Position under the game score
+    text_surface = font.render(popup["text"], True, (255, 255, 0))
+    text_surface.set_alpha(popup["alpha"])
+    rect = text_surface.get_rect(center=(600, 135))
+    screen.blit(text_surface, rect)

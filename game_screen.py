@@ -31,6 +31,7 @@ def game_screen(screen, clock, game_state):
         screen.blit(background, (0, 0))
         draw_lives(screen, game_state)
         draw_score(screen, game_state)
+        draw_score_popup(screen, game_state)
         draw_music_button(screen, music_muted, music_img, music_muted_img, music_rect)
         draw_sound_button(screen, sound_muted, sound_img, sound_muted_img, sound_rect)
         back_rect = draw_image_button(screen,"assets/images/arrow.png",position=(80, 80))
