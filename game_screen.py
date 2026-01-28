@@ -55,7 +55,8 @@ def game_screen(screen, clock, game_state):
                 return
             
         # SPAWN FRUITS
-        spawn_cooldown += 1
+        if game_state.freeze_timer < 0 : 
+            spawn_cooldown += 1
         if spawn_cooldown >= spawn_rate :
             spawn_item(game_state)
             spawn_cooldown = 0

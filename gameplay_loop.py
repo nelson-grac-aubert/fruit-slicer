@@ -52,7 +52,7 @@ def get_random_initial_position():
     SCREEN_HEIGHT = 700
     SCREEN_WIDTH = 1200
     return (
-        random.choice([SCREEN_WIDTH + 100, -100]),   # LEFT OR RIGHT
+        random.choice([SCREEN_WIDTH + 50, -50]),   # LEFT OR RIGHT
         random.randint(SCREEN_HEIGHT//3, SCREEN_HEIGHT//2) # VERTICAL
     )
 

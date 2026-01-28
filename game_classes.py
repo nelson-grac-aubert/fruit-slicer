@@ -14,7 +14,7 @@ class GameState:
         self.difficulty = "Easy"
 
     def frozen(self):
-        """ True for two seconds after activating ice cube """
+        """ True for 3-5 seconds seconds after activating ice cube """
         return self.freeze_timer > 0
 
 
@@ -80,7 +80,7 @@ class IceCube(FlyingObject):
         
     def on_hit(self, game_state):
         load_sound("assets/sounds/ice.mp3").play()
-        game_state.freeze_timer = 120  # 2 seconds at 60 FPS
+        game_state.freeze_timer = random.randint(180,300)  # 3-5 seconds at 60 FPS
 
 
 class Bomb(FlyingObject):
