@@ -10,8 +10,11 @@ class GameState:
         self.score = 0 
         self.lives = 3 
         self.freeze_timer = 0 
+        self.active_objects = []
+        self.difficulty = "Easy"
 
     def frozen(self):
+        """ True for 3-5 seconds seconds after activating ice cube """
         return self.freeze_timer > 0
 
 
@@ -22,7 +25,7 @@ class FlyingObject:
         self.letter = letter
         self.x, self.y = position
         self.x_speed, self.y_speed = speed
-        self.gravity = 0.04
+        self.gravity = 0.1
         self.rotation = random.randint(0,360)
         self.rotation_speed = random.randint(-6,6)
 
@@ -30,6 +33,7 @@ class FlyingObject:
         self.text_surface = self.font.render(self.letter, True, (255, 255, 255))
 
     def update(self, game_state):
+        """ Move the object """
         if not game_state.frozen():
             self.y_speed += self.gravity
             self.x += self.x_speed
@@ -38,6 +42,7 @@ class FlyingObject:
 
 
     def draw(self, screen):
+        """ Blits the object and its letter on the screen """
         rotated = pygame.transform.rotate(self.image, self.rotation)
         rect = rotated.get_rect(center=(self.x, self.y))
         screen.blit(rotated, rect)
@@ -46,11 +51,10 @@ class FlyingObject:
         box_size = 45
         offset_y = -110  # DISTANCE FROM FRUIT
 
-        pygame.draw.rect(
-            screen,
-            (0, 0, 0),
-            (self.x - box_size//2, self.y + offset_y, box_size, box_size)
-        )
+        rect_surface = pygame.Surface((box_size, box_size), pygame.SRCALPHA)
+        rect_surface.fill((0, 0, 0, 120))  # 120 = ALPHA TRANSPARENCE (0-255)
+        screen.blit(rect_surface, (self.x - box_size//2, self.y + offset_y))
+
 
         # CENTER LETTER ON SQUARE
         text_rect = self.text_surface.get_rect(center=(self.x, self.y + offset_y + box_size//2))
@@ -76,7 +80,7 @@ class IceCube(FlyingObject):
         
     def on_hit(self, game_state):
         load_sound("assets/sounds/ice.mp3").play()
-        game_state.freeze_timer = 120  # 2 seconds at 60 FPS
+        game_state.freeze_timer = random.randint(180,300)  # 3-5 seconds at 60 FPS
 
 
 class Bomb(FlyingObject):

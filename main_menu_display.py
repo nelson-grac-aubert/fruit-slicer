@@ -42,7 +42,7 @@ def button(screen):
 
 # Diffilculty button 
 def draw_difficulty_button(screen, current_level):
-    button_width, button_height = 250, 80
+    button_width, button_height = 300, 100
     screen_width, screen_height = screen.get_size()
     x = (screen_width - button_width) // 2
     y = screen_height // 2 + 50
@@ -68,7 +68,7 @@ def draw_difficulty_button(screen, current_level):
     pygame.draw.rect(screen, color, button_rect, border_radius=12)
 
     font = pygame.font.Font(resource_path("assets/fonts/pixelify_sans.ttf"), 36)
-    text_surface = font.render(current_level, True, (255, 255, 255))
+    text_surface = font.render(f"Difficulty : {current_level}", True, (255, 255, 255))
     text_rect = text_surface.get_rect(center=button_rect.center)
     screen.blit(text_surface, text_rect)
 
@@ -76,10 +76,10 @@ def draw_difficulty_button(screen, current_level):
 
 # Score button 
 def draw_score_button(screen):
-    button_width, button_height = 250, 80
+    button_width, button_height = 300, 100
     screen_width, screen_height = screen.get_size()
     x = (screen_width - button_width) // 2
-    y = screen_height // 2 + 160
+    y = screen_height // 2 + 200
 
     mouse_pos = pygame.mouse.get_pos()
     hovered = pygame.Rect(x, y, button_width, button_height).collidepoint(mouse_pos)
@@ -126,7 +126,7 @@ def difficulty_button_click(event, button_rect):
 def score_button_click(event, button_rect):
     return event.type == pygame.MOUSEBUTTONDOWN and button_rect.collidepoint(event.pos)
 
-def image_button_click(event, rect):
+def back_button_click(event, rect):
     return event.type == pygame.MOUSEBUTTONDOWN and rect.collidepoint(event.pos)
 
 

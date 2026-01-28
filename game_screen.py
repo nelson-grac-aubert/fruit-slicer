@@ -2,15 +2,16 @@
 
 import pygame
 from game_classes import GameState
-from gameplay_loop import spawn_item, update_all_objects, draw_all_fruits, handle_key_press
+from gameplay_loop import *
 from game_assets import load_image
 from sound_control import *
-from main_menu_display import draw_image_button, image_button_click
+from main_menu_display import draw_image_button, back_button_click
+from difficulty_settings import DIFFICULTY_SETTINGS
 
-
-def game_screen(screen, clock, game_state, difficulty):
+def game_screen(screen, clock, game_state):
 
     background = load_image("assets/images/background.png")
+    frozen_overlay = load_image("assets/images/frozen_state.png")
 
     spawn_cooldown = 0
 
@@ -22,35 +23,42 @@ def game_screen(screen, clock, game_state, difficulty):
 
     while game_state.state == "GAME":
 
-        # Backround
-        screen.blit(background, (0, 0))
+        # Difficulty 
+        settings = DIFFICULTY_SETTINGS[game_state.difficulty]
+        spawn_rate = settings["spawn_rate"]
 
-        # Sound buttons
+        # Draw UI
+        screen.blit(background, (0, 0))
+        draw_lives(screen, game_state)
+        draw_score(screen, game_state)
         draw_music_button(screen, music_muted, music_img, music_muted_img, music_rect)
         draw_sound_button(screen, sound_muted, sound_img, sound_muted_img, sound_rect)
-
-        # Back button
-        back_rect = draw_image_button(
-            screen,
-            "assets/images/arrow.png",
-            position=(80, 80)
-        )
-
-        # Update fruits
-        update_all_objects(game_state)
+        back_rect = draw_image_button(screen,"assets/images/arrow.png",position=(80, 80))
 
         # Draw fruits
-        draw_all_fruits(screen)
+        draw_all_fruits(screen, game_state)
 
         # UPDATE
         game_state.freeze_timer -= 1
-        if game_state.freeze_timer > 0 : screen.blit(load_image("assets/images/frozen_state.png"), (0,0))
+        if game_state.freeze_timer > 0 : screen.blit(frozen_overlay, (0,0))
         update_all_objects(game_state)
 
+        # HANDLE END OF GAME
+        if game_state.lives <= 0:
+            result = game_over_screen(screen, game_state)
+
+            if result == "RESTART":
+                return "RESTART"
+
+            if result == "MENU":
+                game_state.state = "MENU"
+                return
+            
         # SPAWN FRUITS
-        spawn_cooldown += 1
-        if spawn_cooldown >= 40:
-            spawn_item()
+        if game_state.freeze_timer < 0 : 
+            spawn_cooldown += 1
+        if spawn_cooldown >= spawn_rate :
+            spawn_item(game_state)
             spawn_cooldown = 0
 
         # Events
@@ -61,7 +69,7 @@ def game_screen(screen, clock, game_state, difficulty):
                 exit()
 
             # Back button
-            if image_button_click(event, back_rect):
+            if back_button_click(event, back_rect):
                 game_state.state = "MENU"
                 return
 
@@ -72,5 +80,8 @@ def game_screen(screen, clock, game_state, difficulty):
             if event.type == pygame.KEYDOWN:
                 handle_key_press(event.key, game_state)
 
+            
         pygame.display.flip()
         clock.tick(60)
+
+
