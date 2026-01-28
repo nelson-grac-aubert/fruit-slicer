@@ -3,10 +3,8 @@ import random
 from game_assets import * 
 from game_classes import *
 
-active_objects = []
-
 # def get_difficulty(difficulty_levels, difficulty_index) : 
-#     return difficulty_levels[difficulty_index]
+# return difficulty_levels[difficulty_index]
 
 def get_random_fruit_image() : 
     """ Return a fruit sprite chosen at random """
@@ -20,17 +18,17 @@ def get_random_fruit_image() :
         "assets/images/orange.png"
         ]))
 
-def get_used_characters(active_objects) : 
+def get_used_characters(game_state) : 
     in_use_caracters = []
-    for element in active_objects : 
+    for element in game_state.active_objects : 
         in_use_caracters.append(element.letter)
     return in_use_caracters
 
-def get_random_character(difficulty) :
+def get_random_character(difficulty, game_state) :
     easy_list = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
     medium_list = easy_list + ['0','1','2','3','4','5','6','7','8','9','²']
     hard_list = medium_list + ['&','é','"',"'",'(','-','è','_','ç','à',')','=','^','$','ù','*','<',',',';',':','!']
-    in_use_characters = get_used_characters(active_objects)
+    in_use_characters = get_used_characters(game_state)
 
     if difficulty == "Easy":
         while True:
@@ -57,40 +55,52 @@ def get_random_initial_position():
     )
 
 
-def get_random_initial_speed() : 
-    """ Return an initial speed (x,y) for the FlyingObject"""
-    x_speed = random.choice([-1, 1]) * random.randint(4, 6)  # TOWARDS THE CENTER
-    y_speed = -random.randint(2, 4)                        # UP
+def get_random_initial_speed(initial_x):
+    """Return an initial speed (x, y) based on spawn side."""
+    
+    # If item spawns on the right : moves left
+    if initial_x > 1200:  
+        x_speed = -random.randint(6, 8)
+
+    # If item spawns on left : moves right
+    else:
+        x_speed = random.randint(6, 8)
+
+    y_speed = -random.randint(3, 6)  # Always upwards
+
     return (x_speed, y_speed)
 
 
-def spawn_fruit() : 
+def spawn_fruit(game_state) : 
     """ Spawns a Fruit FlyingObject with all its stats randomized """
-    fruit = Fruit(get_random_fruit_image(), 
-            get_random_character("Easy"),
-            get_random_initial_position(),
-            get_random_initial_speed())
-    active_objects.append(fruit)
+    pos = get_random_initial_position()
+    speed = get_random_initial_speed(pos[0])
+    fruit = Fruit(get_random_fruit_image(),
+                  get_random_character("Easy", game_state),
+                  pos,
+                  speed)
+    game_state.active_objects.append(fruit)
 
 
-def spawn_bomb() : 
+
+def spawn_bomb(game_state) : 
     """ Spawns a Bomb FlyingObject with its stats randomized """
-    bomb = Bomb(get_random_character("Easy"),
-            get_random_initial_position(),
-            get_random_initial_speed())
-    active_objects.append(bomb)
+    pos = get_random_initial_position()
+    speed = get_random_initial_speed(pos[0])
+    bomb = Bomb(get_random_character("Easy", game_state), pos, speed)
+    game_state.active_objects.append(bomb)
 
 
-def spawn_ice() : 
+def spawn_ice(game_state) : 
     """ Spawns and IceCube FlyingObject with its stats randomized """
-    ice = IceCube(get_random_character("Easy"),
-                  get_random_initial_position(),
-                  get_random_initial_speed())
-    active_objects.append(ice)
+    pos = get_random_initial_position()
+    speed = get_random_initial_speed(pos[0])
+    ice = IceCube(get_random_character("Easy", game_state), pos, speed)
+    game_state.active_objects.append(ice)
 
 
-def spawn_item() : 
-
+def spawn_item(game_state) : 
+    """ Handles proportion of each item depending on difficulty """
     difficulty = "Easy"
     if difficulty == "Easy":
         items = [spawn_fruit, spawn_bomb, spawn_ice]
@@ -105,36 +115,129 @@ def spawn_item() :
         weights = [74, 25, 1]
 
     chosen = random.choices(items, weights=weights, k=1)[0]
-    return chosen()
+    return chosen(game_state)
 
 
 def update_all_objects(game_state):
     """ Applies the update method on all objects """
-    global active_objects
 
-    for obj in active_objects:
+    remaining = []
+    for obj in game_state.active_objects:
         obj.update(game_state)
 
-    # remove objects that fall off screen
-    active_objects = [o for o in active_objects if o.y < 800 and -100 < o.x < 1400]
+        # S'il sort de l'écran → MISS
+        if obj.y >= 800 or obj.x <= -100 or obj.x >= 1400:
+            if hasattr(obj, "on_miss"):
+                obj.on_miss(game_state)
+        else:
+            remaining.append(obj)
+
+    game_state.active_objects = remaining
 
 
-def draw_all_fruits(screen):
-    for obj in active_objects:
+def draw_all_fruits(screen, game_state):
+    """ Draws all fruits in active_object on the game screen """
+    for obj in game_state.active_objects:
         obj.draw(screen)
 
 
 def handle_key_press(key, game_state):
-    global active_objects
+    """ Handles item destruction depending on their letter """
 
     try:
         pressed = chr(key).lower()
     except:
-        return  # touches spéciales ignorées
+        return
 
-    # Chercher un objet dont la lettre correspond
-    for obj in active_objects:
+    # Looks for an item that has this letter
+    for obj in game_state.active_objects:
         if obj.letter.lower() == pressed:
             obj.on_hit(game_state)
-            active_objects.remove(obj)
+            game_state.active_objects.remove(obj)
             break
+
+def draw_lives(screen, game_state):
+    """ Displays lives on top right of screen """
+    life_full = load_image("assets/images/life_remaing.png")
+    life_empty = load_image("assets/images/life_lost.png")
+
+    total_lives = 3
+    x_start = 1200 - 150  # First life position
+    y = 20               # Fixed height
+    spacing = 100         # Spacing between lives
+
+    for i in range(total_lives):
+        x = x_start - i * spacing
+
+        if i < game_state.lives:
+            screen.blit(life_full, (x, y))
+        else:
+            screen.blit(life_empty, (x, y))
+
+def get_pixel_font(size):
+    """ Loads font once for Game Over screen """
+    return load_font("assets/fonts/pixelify_sans.ttf", size)
+
+def draw_play_again_button(screen):
+    """ Blits play again button on game loss """
+    font = get_pixel_font(48)
+    text = font.render("PLAY AGAIN", True, (255, 255, 255))
+    rect = text.get_rect(center=(600, 450))
+
+    pygame.draw.rect(screen, (40, 40, 40), rect.inflate(40, 20), border_radius=8)
+    screen.blit(text, rect)
+
+    return rect
+
+def draw_main_menu_button(screen):
+    """ Blits back to main menu button on game loss """
+    font = get_pixel_font(48)
+    text = font.render("MAIN MENU", True, (255, 255, 255))
+    rect = text.get_rect(center=(600, 550))
+
+    pygame.draw.rect(screen, (40, 40, 40), rect.inflate(40, 20), border_radius=8)
+    screen.blit(text, rect)
+
+    return rect
+
+def draw_game_over_title(screen):
+    """ Blits Game Over Title on game loss """
+    font = get_pixel_font(80)
+    text = font.render("GAME OVER", True, (255, 80, 80))
+    rect = text.get_rect(center=(600, 250))
+
+    pygame.draw.rect(screen, (0, 0, 0), rect.inflate(60, 30))
+    screen.blit(text, rect)
+
+def game_over_screen(screen, game_state):
+    """ Displays end of game screen with play again and main menu button """
+
+    while True:
+        screen.fill((20, 20, 20))
+
+        # Title
+        draw_game_over_title(screen)
+
+        # Buttons
+        play_rect = draw_play_again_button(screen)
+        menu_rect = draw_main_menu_button(screen)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if play_rect.collidepoint(event.pos):
+                    return "RESTART"
+                if menu_rect.collidepoint(event.pos):
+                    return "MENU"
+
+        pygame.display.flip()
+
+def reset_gameplay_state(game_state):
+    """Resets game state at the end of the game"""
+    game_state.lives = 3
+    game_state.score = 0
+    game_state.freeze_timer = 0
+    game_state.active_objects.clear()

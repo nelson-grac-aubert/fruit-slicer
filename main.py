@@ -9,6 +9,7 @@ from game_assets import *
 from sound_control import * 
 from main_menu_display import * 
 from game_screen import game_screen
+from gameplay_loop import * 
 
 # Music
 load_music("assets/sounds/synthwave.mp3")
@@ -37,7 +38,8 @@ def main():
     sound_muted = False
 
     difficulty_index = 0
-    current_difficulty = difficulty_levels[difficulty_index]   
+    current_difficulty = difficulty_levels[difficulty_index]
+    game_state.lives = 3   
 
     while True:
 
@@ -67,8 +69,14 @@ def main():
                 sound_muted = button_sound_click(event, sound_rect, sound_muted)
 
                 if button_click(event, play_rect):
-                    game_state.state = "GAME"
-                    game_screen(screen, clock, game_state, current_difficulty)  
+                    while True:
+                        reset_gameplay_state(game_state)
+                        game_state.state = "GAME"
+                        result = game_screen(screen, clock, game_state)
+
+                        if result == "RESTART":
+                            continue   # relance une nouvelle partie propre
+                        break          # si MENU ou QUIT, on sort de la boucle
 
                 if difficulty_button_click(event, difficulty_rect):
                     difficulty_index = (difficulty_index + 1) % len(difficulty_levels)

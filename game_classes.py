@@ -10,6 +10,7 @@ class GameState:
         self.score = 0 
         self.lives = 3 
         self.freeze_timer = 0 
+        self.active_objects = []
 
     def frozen(self):
         return self.freeze_timer > 0
@@ -22,7 +23,7 @@ class FlyingObject:
         self.letter = letter
         self.x, self.y = position
         self.x_speed, self.y_speed = speed
-        self.gravity = 0.04
+        self.gravity = 0.1
         self.rotation = random.randint(0,360)
         self.rotation_speed = random.randint(-6,6)
 

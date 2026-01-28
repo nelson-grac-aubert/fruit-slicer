@@ -2,15 +2,15 @@
 
 import pygame
 from game_classes import GameState
-from gameplay_loop import spawn_item, update_all_objects, draw_all_fruits, handle_key_press
+from gameplay_loop import *
 from game_assets import load_image
 from sound_control import *
 from main_menu_display import draw_image_button, image_button_click
 
-
-def game_screen(screen, clock, game_state, difficulty):
+def game_screen(screen, clock, game_state):
 
     background = load_image("assets/images/background.png")
+    frozen_overlay = load_image("assets/images/frozen_state.png")
 
     spawn_cooldown = 0
 
@@ -24,6 +24,8 @@ def game_screen(screen, clock, game_state, difficulty):
 
         # Backround
         screen.blit(background, (0, 0))
+        # Draw lives
+        draw_lives(screen, game_state)
 
         # Sound buttons
         draw_music_button(screen, music_muted, music_img, music_muted_img, music_rect)
@@ -36,21 +38,29 @@ def game_screen(screen, clock, game_state, difficulty):
             position=(80, 80)
         )
 
-        # Update fruits
-        update_all_objects(game_state)
-
         # Draw fruits
-        draw_all_fruits(screen)
+        draw_all_fruits(screen, game_state)
 
         # UPDATE
         game_state.freeze_timer -= 1
-        if game_state.freeze_timer > 0 : screen.blit(load_image("assets/images/frozen_state.png"), (0,0))
+        if game_state.freeze_timer > 0 : screen.blit(frozen_overlay, (0,0))
         update_all_objects(game_state)
 
+        # HANDLE END OF GAME
+        if game_state.lives <= 0:
+            result = game_over_screen(screen, game_state)
+
+            if result == "RESTART":
+                return "RESTART"
+
+            if result == "MENU":
+                game_state.state = "MENU"
+                return
+            
         # SPAWN FRUITS
         spawn_cooldown += 1
-        if spawn_cooldown >= 40:
-            spawn_item()
+        if spawn_cooldown >= 50:
+            spawn_item(game_state)
             spawn_cooldown = 0
 
         # Events
@@ -72,5 +82,8 @@ def game_screen(screen, clock, game_state, difficulty):
             if event.type == pygame.KEYDOWN:
                 handle_key_press(event.key, game_state)
 
+            
         pygame.display.flip()
         clock.tick(60)
+
+
