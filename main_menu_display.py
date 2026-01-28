@@ -126,7 +126,7 @@ def difficulty_button_click(event, button_rect):
 def score_button_click(event, button_rect):
     return event.type == pygame.MOUSEBUTTONDOWN and button_rect.collidepoint(event.pos)
 
-def image_button_click(event, rect):
+def back_button_click(event, rect):
     return event.type == pygame.MOUSEBUTTONDOWN and rect.collidepoint(event.pos)
 
 

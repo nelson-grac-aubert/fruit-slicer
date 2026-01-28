@@ -5,7 +5,7 @@ from game_classes import GameState
 from gameplay_loop import *
 from game_assets import load_image
 from sound_control import *
-from main_menu_display import draw_image_button, image_button_click
+from main_menu_display import draw_image_button, back_button_click
 from difficulty_settings import DIFFICULTY_SETTINGS
 
 def game_screen(screen, clock, game_state):
@@ -69,7 +69,7 @@ def game_screen(screen, clock, game_state):
                 exit()
 
             # Back button
-            if image_button_click(event, back_rect):
+            if back_button_click(event, back_rect):
                 game_state.state = "MENU"
                 return
 
