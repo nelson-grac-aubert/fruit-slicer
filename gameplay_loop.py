@@ -155,9 +155,9 @@ def draw_lives(screen, game_state):
     life_empty = load_image("assets/images/life_lost.png")
 
     total_lives = 3
-    x_start = 1200 - 150  # First life position
-    y = 20               # Fixed height
-    spacing = 100         # Spacing between lives
+    x_start = 1200 - 150    # First life position
+    y = 20                  # Fixed height
+    spacing = 100           # Spacing between lives
 
     for i in range(total_lives):
         x = x_start - i * spacing
