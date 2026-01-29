@@ -1,7 +1,6 @@
 import json 
 import os
 import pygame
-from game_classes import GameState
 from game_assets import resource_path
 from game_assets import load_font, load_image
 from sound_control import *

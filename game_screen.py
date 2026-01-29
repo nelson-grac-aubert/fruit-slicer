@@ -1,5 +1,4 @@
 import pygame
-from game_classes import GameState
 from gameplay_loop import *
 from game_assets import load_image
 from sound_control import *
