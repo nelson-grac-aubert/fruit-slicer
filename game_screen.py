@@ -12,6 +12,7 @@ def game_screen(screen, clock, game_state, music_muted, sound_muted):
     frozen_overlay = load_image("assets/images/frozen_state.png")
 
     spawn_cooldown = 0
+    game_over_delay = None
 
     # Sound buttons
 
@@ -43,21 +44,27 @@ def game_screen(screen, clock, game_state, music_muted, sound_muted):
         update_all_particles(screen, game_state)
 
         # Handle game over screen
-        if game_state.lives <= 0:
-            final_score = save_final_score(game_state)
-            result = game_over_screen(screen, final_score)
+        if game_state.lives <= 0:       # 40 frames to see the explosion animation
+            if game_over_delay == None : 
+                game_over_delay = 40
+            else :
+                game_over_delay -= 1
 
-            if result == "RESTART":
-                return result, music_muted, sound_muted
+                if game_over_delay <= 0 : 
+                    final_score = save_final_score(game_state)
+                    result = game_over_screen(screen, final_score)
 
-            elif result == "MENU":
-                game_state.state = result
-                return result, music_muted, sound_muted
-            
-            elif result == "SAVE" : 
-                game_state.state = result
-                return result, music_muted, sound_muted
-            
+                    if result == "RESTART":
+                        return result, music_muted, sound_muted
+
+                    elif result == "MENU":
+                        game_state.state = result
+                        return result, music_muted, sound_muted
+                    
+                    elif result == "SAVE" : 
+                        game_state.state = result
+                        return result, music_muted, sound_muted
+                
         # Spawn fruits depending on difficulty
         if game_state.freeze_timer < 0 : 
             spawn_cooldown += 1

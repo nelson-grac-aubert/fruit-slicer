@@ -110,7 +110,7 @@ class Fruit(FlyingObject):
         if bonus > 0:
             game_state.show_score_popup(f"COMBO +{bonus}!")
         # Add particle effect 
-        game_state.active_particles.append(ParticleEffect((self.x, self.y)))
+        game_state.active_particles.append(Slice((self.x, self.y)))
 
     def on_miss(self, game_state):
         """ When the object disappears from bottom of the screen """
@@ -126,6 +126,8 @@ class IceCube(FlyingObject):
         if not game_state.sound_muted:
             load_sound("assets/sounds/ice.mp3").play()
         game_state.freeze_timer = random.randint(180,300)  # 3-5 seconds at 60 FPS
+        # Add particle effect 
+        game_state.active_particles.append(IceWind((self.x, self.y)))
 
 
 class Bomb(FlyingObject):
@@ -134,20 +136,25 @@ class Bomb(FlyingObject):
 
     def on_hit(self, game_state):
         """ When the object letter is input by the player """
+
+        # Play explosion sound
         if not game_state.sound_muted:
             load_sound("assets/sounds/bomb.wav").play()
-        game_state.lives -= 3 
+        # Lose game
+        game_state.lives = 0
+        # Add particle effect 
+        game_state.active_particles.append(Explosion((self.x, self.y)))
 
 
 class ParticleEffect:
     def __init__(self, position):
         """ Initialize a slice particle effect at given position """
-        # Load all slice frames once
-        self.frames = [load_image(f"assets/images/animations/slice{i}.png") for i in range(1,9)]
-        self.position = position   # Center position of the effect
-        self.frame_index = 0       # Current frame index
-        self.tick = 0              # Counter to slow down animation
-        self.finished = False      # True when animation is over
+        
+        self.position = position                # Center position of the effect
+        self.frame_index = 0                    # Current frame index
+        self.tick = 0                           # Counter to slow down animation
+        self.finished = False                   # True when animation is over
+        self.roation = random.randint(0,360)    # Rotation for variations
 
     def update(self):
         """ Update the animation state each frame """
@@ -169,3 +176,21 @@ class ParticleEffect:
             frame = self.frames[self.frame_index]
             rect = frame.get_rect(center=self.position)
             screen.blit(frame, rect)
+
+class Slice(ParticleEffect) : 
+    def __init__(self, position) : 
+        super().__init__(position)
+        # Load all slice frames once
+        self.frames = [load_image(f"assets/images/animations/slice{i}.png") for i in range(1,9)]
+
+class IceWind(ParticleEffect) : 
+    def __init__(self, position) : 
+        super().__init__(position)
+        # Load all slice frames once
+        self.frames = [load_image(f"assets/images/animations/icewind{i}.png") for i in range(1,9)]
+
+class Explosion(ParticleEffect) : 
+    def __init__(self, position) : 
+        super().__init__(position)
+        # Load all slice frames once
+        self.frames = [load_image(f"assets/images/animations/explosion{i}.png") for i in range(1,9)]
