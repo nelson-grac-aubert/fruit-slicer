@@ -89,7 +89,8 @@ def main():
                     while True:
                         reset_gameplay_state(game_state)
                         game_state.state = "GAME"
-                        decision = game_screen(screen, clock, game_state)
+                        decision, music_muted, sound_muted = game_screen(screen, clock, 
+                        game_state, music_muted, sound_muted)
                         if decision == "RESTART":
                             continue                    # Start new game
 
