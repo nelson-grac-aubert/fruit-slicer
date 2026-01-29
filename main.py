@@ -33,10 +33,10 @@ sound_img, sound_muted_img, sound_rect = load_sound_images()
 
 def main():
 
+    # Initialize main menu variables
     show_exit_confirm = False
     yes_rect = None
     no_rect = None
-
     music_muted = False
     sound_muted = False
     difficulty_levels = ["Easy", "Medium", "Hard"]
@@ -89,7 +89,8 @@ def main():
                     while True:
                         reset_gameplay_state(game_state)
                         game_state.state = "GAME"
-                        decision = game_screen(screen, clock, game_state)
+                        decision, music_muted, sound_muted = game_screen(screen, clock, 
+                        game_state, music_muted, sound_muted)
                         if decision == "RESTART":
                             continue                    # Start new game
 
@@ -122,7 +123,6 @@ def main():
 
             pygame.display.flip()
             clock.tick(60)
-
 
 
 if __name__ == "__main__":

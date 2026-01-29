@@ -1,5 +1,4 @@
 import pygame
-from game_classes import GameState
 from gameplay_loop import *
 from game_assets import load_image
 from sound_control import *
@@ -7,7 +6,7 @@ from main_menu_display import draw_back_button, back_button_click
 from game_over import save_final_score, game_over_screen
 from difficulty_settings import DIFFICULTY_SETTINGS
 
-def game_screen(screen, clock, game_state):
+def game_screen(screen, clock, game_state, music_muted, sound_muted):
 
     background = load_image("assets/images/background.png")
     frozen_overlay = load_image("assets/images/frozen_state.png")
@@ -15,8 +14,7 @@ def game_screen(screen, clock, game_state):
     spawn_cooldown = 0
 
     # Sound buttons
-    music_muted = False
-    sound_muted = False
+
     music_img, music_muted_img, music_rect = load_music_images()
     sound_img, sound_muted_img, sound_rect = load_sound_images()
 
@@ -49,15 +47,15 @@ def game_screen(screen, clock, game_state):
             result = game_over_screen(screen, final_score)
 
             if result == "RESTART":
-                return "RESTART"
+                return result, music_muted, sound_muted
 
             elif result == "MENU":
-                game_state.state = "MENU"
-                return
+                game_state.state = result
+                return result, music_muted, sound_muted
             
             elif result == "SAVE" : 
-                game_state.state = "SAVE"
-                return "SAVE"
+                game_state.state = result
+                return result, music_muted, sound_muted
             
         # Spawn fruits depending on difficulty
         if game_state.freeze_timer < 0 : 
@@ -76,7 +74,7 @@ def game_screen(screen, clock, game_state):
             # Back button
             if back_button_click(event, back_rect):
                 game_state.state = "MENU"
-                return
+                return "MENU", music_muted, sound_muted
 
             # Sound buttons
             music_muted = button_music_click(event, music_rect, music_muted)
