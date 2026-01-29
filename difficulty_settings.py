@@ -1,8 +1,8 @@
 DIFFICULTY_SETTINGS = {
     "Easy": {
-        "spawn_rate": 70,              # Number of frames between FlyingObjet spawn
+        "spawn_rate": 70,                 # Number of frames between FlyingObjet spawn
         "weights": [80, 5, 10, 5],        # Fruits, bombs, ice, gold apple %
-        "character_set": "Easy"        # Character list
+        "character_set": "Easy"           # Character list
     },
     "Medium": {
         "spawn_rate": 55,
