@@ -14,6 +14,8 @@ class GameState:
         self.combo_count = 0        # Amount of fruits cut in a short time
         self.combo_timer = 0        # To evaluate the short time
         self.score_popup = None     # Popup to display combo bonus score
+        self.sound_muted = False  # Contrôle des effets sonores
+
 
     def frozen(self):
         """ True for 3-5 seconds seconds after activating ice cube """
@@ -99,7 +101,8 @@ class Fruit(FlyingObject):
 
     def on_hit(self, game_state):
         """ When the object letter is input by the player """
-        load_sound("assets/sounds/slice1.mp3").play()
+        if not game_state.sound_muted:
+            load_sound("assets/sounds/slice1.mp3").play()
         game_state.score += self.points
         bonus = game_state.register_hit()
         game_state.score += bonus
@@ -118,7 +121,8 @@ class IceCube(FlyingObject):
         
     def on_hit(self, game_state):
         """ When the object letter is input by the player """
-        load_sound("assets/sounds/ice.mp3").play()
+        if not game_state.sound_muted:
+            load_sound("assets/sounds/ice.mp3").play()
         game_state.freeze_timer = random.randint(180,300)  # 3-5 seconds at 60 FPS
 
 
