@@ -28,9 +28,9 @@ def draw_scores(screen) :
     # Centered horizontally, below "Leaderboard"
     score_x = screen.get_width() // 2
     score_start_y = 200 
-    spacing = 52
+    spacing = 49
     scores_color = (255, 147, 147)
-    scores_size = 48
+    scores_size = 44
 
     # Font
     scores_font = load_font(("assets/fonts/pixelify_sans.ttf"), scores_size)
