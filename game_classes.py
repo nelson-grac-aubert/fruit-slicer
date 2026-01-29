@@ -99,11 +99,15 @@ class Fruit(FlyingObject):
     def __init__(self, image, letter, position, speed, points=1):
         super().__init__(image, letter, position, speed)
         self.points = points
+        # Get one of three slice sound at random for variety
+        self.sound = random.choice((load_sound("assets/sounds/slice1.wav"),
+                                    load_sound("assets/sounds/slice2.wav"),
+                                    load_sound("assets/sounds/slice3.wav")))
 
     def on_hit(self, game_state):
         """ When the object letter is input by the player """
         if not game_state.sound_muted:
-            load_sound("assets/sounds/slice1.mp3").play()
+            self.sound.play()
         game_state.score += self.points
         bonus = game_state.register_hit()
         game_state.score += bonus
