@@ -33,10 +33,10 @@ sound_img, sound_muted_img, sound_rect = load_sound_images()
 
 def main():
 
+    # Initialize main menu variables
     show_exit_confirm = False
     yes_rect = None
     no_rect = None
-
     music_muted = False
     sound_muted = False
     difficulty_levels = ["Easy", "Medium", "Hard"]
@@ -122,7 +122,6 @@ def main():
 
             pygame.display.flip()
             clock.tick(60)
-
 
 
 if __name__ == "__main__":
