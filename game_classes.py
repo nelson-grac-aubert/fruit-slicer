@@ -120,6 +120,11 @@ class Fruit(FlyingObject):
         """ When the object disappears from bottom of the screen """
         game_state.lives -= 1
 
+class GoldApple(Fruit):
+    def __init__(self, letter, position, speed):
+        super().__init__(load_image("assets/images/gold_apple.png"),   # Specific image
+            letter, position, speed, points=10)                        # 10 points
+        self.sound = load_sound("assets/sounds/golden_apple.wav")
 
 class IceCube(FlyingObject):
     def __init__(self, letter, position, speed) :
