@@ -10,6 +10,7 @@ class GameState:
         self.lives = 3              # Starting lives
         self.freeze_timer = 0       # Freeze timer
         self.active_objects = []    # All items currently on screen
+        self.active_particles = []  # All animations currently on screen
         self.difficulty = "Easy"    # Or "Medium" or "Hard"
         self.combo_count = 0        # Amount of fruits cut in a short time
         self.combo_timer = 0        # To evaluate the short time
@@ -105,7 +106,8 @@ class Fruit(FlyingObject):
         game_state.score += bonus
         if bonus > 0:
             game_state.show_score_popup(f"COMBO +{bonus}!")
-
+        # Add particle effect 
+        game_state.active_particles.append(ParticleEffect((self.x, self.y)))
 
     def on_miss(self, game_state):
         """ When the object disappears from bottom of the screen """
@@ -129,3 +131,35 @@ class Bomb(FlyingObject):
     def on_hit(self, game_state):
         """ When the object letter is input by the player """
         game_state.lives -= 3 
+
+
+class ParticleEffect:
+    def __init__(self, position):
+        """ Initialize a slice particle effect at given position """
+        # Load all slice frames once
+        self.frames = [load_image(f"assets/images/animations/slice{i}.png") for i in range(1,9)]
+        self.position = position   # Center position of the effect
+        self.frame_index = 0       # Current frame index
+        self.tick = 0              # Counter to slow down animation
+        self.finished = False      # True when animation is over
+
+    def update(self):
+        """ Update the animation state each frame """
+        # Increase tick counter
+        self.tick += 1
+
+        # Advance to next frame every 3 ticks
+        if self.tick >= 2:
+            self.frame_index += 1
+            self.tick = 0
+
+        # Mark as finished if all frames are shown
+        if self.frame_index >= len(self.frames):
+            self.finished = True
+
+    def draw(self, screen):
+        """ Draw the current frame of the effect """
+        if not self.finished:
+            frame = self.frames[self.frame_index]
+            rect = frame.get_rect(center=self.position)
+            screen.blit(frame, rect)

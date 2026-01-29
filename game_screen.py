@@ -40,6 +40,7 @@ def game_screen(screen, clock, game_state, music_muted, sound_muted):
         game_state.freeze_timer -= 1
         if game_state.freeze_timer > 0 : screen.blit(frozen_overlay, (0,0))
         update_all_objects(game_state)
+        update_all_particles(screen, game_state)
 
         # Handle game over screen
         if game_state.lives <= 0:

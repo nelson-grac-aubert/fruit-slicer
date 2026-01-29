@@ -147,6 +147,21 @@ def draw_all_fruits(screen, game_state):
     for obj in game_state.active_objects:
         obj.draw(screen)
 
+def update_all_particles(screen, game_state):
+    """ Update and draw all active particle effects """
+
+    # Iterate over a copy of the list to allow safe removal
+    for particle in game_state.active_particles[:]:
+        # Update animation state
+        particle.update()
+
+        # Draw current frame
+        particle.draw(screen)
+
+        # Remove particle if finished
+        if particle.finished:
+            game_state.active_particles.remove(particle)
+
 
 def handle_key_press(key, game_state):
     """ Handles item destruction depending on their letter """
