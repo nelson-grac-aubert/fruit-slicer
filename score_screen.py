@@ -27,10 +27,10 @@ def draw_scores(screen) :
 
     # Centered horizontally, below "Leaderboard"
     score_x = screen.get_width() // 2
-    score_start_y = 300 
-    spacing = 75
+    score_start_y = 200 
+    spacing = 49
     scores_color = (255, 147, 147)
-    scores_size = 64
+    scores_size = 44
 
     # Font
     scores_font = load_font(("assets/fonts/pixelify_sans.ttf"), scores_size)
@@ -56,7 +56,7 @@ def score_screen(screen, clock, game_state, background,
         draw_scores(screen)
         draw_music_button(screen, music_muted, music_img, music_muted_img, music_rect)
         draw_sound_button(screen, sound_muted, sound_img, sound_muted_img, sound_rect)
-        back_rect = draw_back_button(screen, (1100,640))
+        back_rect = draw_back_button(screen)
 
         # Events
         for event in pygame.event.get():

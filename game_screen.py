@@ -33,7 +33,7 @@ def game_screen(screen, clock, game_state):
         draw_score_popup(screen, game_state)
         draw_music_button(screen, music_muted, music_img, music_muted_img, music_rect)
         draw_sound_button(screen, sound_muted, sound_img, sound_muted_img, sound_rect)
-        back_rect = draw_back_button(screen,position=(80, 80))
+        back_rect = draw_back_button(screen)
 
         # Draw all FlyingObjects
         draw_all_fruits(screen, game_state)
@@ -51,9 +51,13 @@ def game_screen(screen, clock, game_state):
             if result == "RESTART":
                 return "RESTART"
 
-            if result == "MENU":
+            elif result == "MENU":
                 game_state.state = "MENU"
                 return
+            
+            elif result == "SAVE" : 
+                game_state.state = "SAVE"
+                return "SAVE"
             
         # Spawn fruits depending on difficulty
         if game_state.freeze_timer < 0 : 
