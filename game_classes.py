@@ -154,7 +154,7 @@ class ParticleEffect:
         self.frame_index = 0                    # Current frame index
         self.tick = 0                           # Counter to slow down animation
         self.finished = False                   # True when animation is over
-        self.roation = random.randint(0,360)    # Rotation for variations
+        self.rotation = random.randint(-20, 20)    # Rotation for variations
 
     def update(self):
         """ Update the animation state each frame """
@@ -174,6 +174,7 @@ class ParticleEffect:
         """ Draw the current frame of the effect """
         if not self.finished:
             frame = self.frames[self.frame_index]
+            frame = pygame.transform.rotate(frame, self.rotation)
             rect = frame.get_rect(center=self.position)
             screen.blit(frame, rect)
 

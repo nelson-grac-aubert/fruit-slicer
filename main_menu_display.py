@@ -19,7 +19,7 @@ def new_game_button(screen):
     """ Draws New Game button on Main Screen """
 
     # Centered horizontally, below title
-    button_width, button_height = 300, 100
+    button_width, button_height = 350, 100
     screen_width, screen_height = screen.get_size()
     x = (screen_width - button_width) // 2
     y = screen_height // 2 - 100
@@ -96,7 +96,7 @@ def draw_difficulty_button(screen, current_level):
     """ Draw difficulty button on main screen """
 
     # Centered horizontally, below new game button
-    button_width, button_height = 300, 100
+    button_width, button_height = 350, 100
     screen_width, screen_height = screen.get_size()
     x = (screen_width - button_width) // 2
     y = screen_height // 2 + 50
@@ -134,7 +134,7 @@ def draw_score_button(screen):
     """ Draw score screen button under difficulty button """
 
     # Position
-    button_width, button_height = 300, 100
+    button_width, button_height = 350, 100
     screen_width, screen_height = screen.get_size()
     x = (screen_width - button_width) // 2
     y = screen_height // 2 + 200
@@ -149,8 +149,8 @@ def draw_score_button(screen):
     pygame.draw.rect(screen, color, button_rect, border_radius=12)
 
     # Text
-    font = pygame.font.Font(resource_path("assets/fonts/pixelify_sans.ttf"), 40)
-    text_surface = font.render("Score", True, (255, 255, 255))
+    font = pygame.font.Font(resource_path("assets/fonts/pixelify_sans.ttf"), 36)
+    text_surface = font.render("Leaderboard", True, (255, 255, 255))
     text_rect = text_surface.get_rect(center=button_rect.center)
     screen.blit(text_surface, text_rect)
 
