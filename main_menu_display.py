@@ -41,6 +41,48 @@ def new_game_button(screen):
 
     return button_rect
 
+def draw_exit_button(screen):
+    """ Draws a small 'X' button in top-left corner """
+    font = pygame.font.Font(resource_path("assets/fonts/pixelify_sans.ttf"), 36)
+    text_surface = font.render("X", True, (255, 255, 255))
+    button_rect = pygame.Rect(20, 20, 40, 40)
+
+    mouse_pos = pygame.mouse.get_pos()
+    hovered = button_rect.collidepoint(mouse_pos)
+    color = (200, 50, 50) if not hovered else (255, 80, 80)
+
+    pygame.draw.rect(screen, color, button_rect, border_radius=8)
+    screen.blit(text_surface, text_surface.get_rect(center=button_rect.center))
+
+    return button_rect
+
+def exit_button_click(event, button_rect):
+    return event.type == pygame.MOUSEBUTTONDOWN and button_rect.collidepoint(event.pos)
+
+def draw_exit_confirmation(screen):
+    """ Draws confirmation window with YES/NO buttons """
+    overlay = pygame.Surface(screen.get_size(), pygame.SRCALPHA)
+    overlay.fill((0, 0, 0, 180))  # semi-transparent
+
+    pygame.draw.rect(overlay, (50, 50, 50), (400, 250, 400, 200), border_radius=12)
+    font = pygame.font.Font(resource_path("assets/fonts/pixelify_sans.ttf"), 28)
+    text = font.render("Voulez-vous quitter le jeu ?", True, (255, 255, 255))
+    overlay.blit(text, text.get_rect(center=(600, 290)))
+
+    # Boutons
+    yes_rect = pygame.Rect(450, 350, 100, 50)
+    no_rect = pygame.Rect(650, 350, 100, 50)
+
+    pygame.draw.rect(overlay, (200, 50, 50), yes_rect, border_radius=8)
+    pygame.draw.rect(overlay, (50, 200, 100), no_rect, border_radius=8)
+
+    font_btn = pygame.font.Font(resource_path("assets/fonts/pixelify_sans.ttf"), 28)
+    overlay.blit(font_btn.render("OUI", True, (255, 255, 255)), yes_rect.move(25, 10))
+    overlay.blit(font_btn.render("NON", True, (255, 255, 255)), no_rect.move(20, 10))
+
+    screen.blit(overlay, (0, 0))
+    return yes_rect, no_rect
+
 
 def draw_difficulty_button(screen, current_level):
     """ Draw difficulty button on main screen """
