@@ -41,7 +41,8 @@ def save_score(game_state, player_name) :
     scores = get_scores()                   # Get scores if they exist
 
     # Add current entry to scores
-    scores.append({"player" : player_name , "score" : game_state.score}) 
+    if player_name != "" : 
+        scores.append({"player" : player_name , "score" : game_state.score}) 
 
     # Sort scores from highest to lowest before writing them in json
     scores.sort(key=lambda x: x["score"], reverse=True)
@@ -60,14 +61,14 @@ def open_player_name_input(screen, game_state) :
     # UI
     background = load_image("assets/images/background.png")
     screen.blit(background, (0, 0))
-    back_rect = draw_back_button(screen, (1100,640))
+    back_rect = draw_back_button(screen)
 
     # Initialize font and empty name
     input_font = load_font("assets/fonts/pixelify_sans.ttf", 64)
     name = ""
 
     # Input rectangle
-    input_rect = pygame.Rect(250, 300, 300, 60)
+    input_rect = pygame.Rect(325, 290, 600, 70)
 
     while True:
         # Background
@@ -83,7 +84,7 @@ def open_player_name_input(screen, game_state) :
 
         # Display name in rectangle
         name_surf = input_font.render(name, True, (255, 255, 255))
-        screen.blit(name_surf, (input_rect.x + 10, input_rect.y + 10))
+        screen.blit(name_surf, (input_rect.x + 10, input_rect.y - 7))
 
         pygame.display.flip()
 

@@ -56,7 +56,7 @@ def score_screen(screen, clock, game_state, background,
         draw_scores(screen)
         draw_music_button(screen, music_muted, music_img, music_muted_img, music_rect)
         draw_sound_button(screen, sound_muted, sound_img, sound_muted_img, sound_rect)
-        back_rect = draw_back_button(screen, (1100,640))
+        back_rect = draw_back_button(screen)
 
         # Events
         for event in pygame.event.get():
