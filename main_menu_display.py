@@ -85,8 +85,8 @@ def draw_exit_confirmation(screen):
 
     # Buttons Text
     font_btn = pygame.font.Font(resource_path("assets/fonts/pixelify_sans.ttf"), 28)
-    overlay.blit(font_btn.render("YEs", True, (255, 255, 255)), yes_rect.move(25, 10))
-    overlay.blit(font_btn.render("NO", True, (255, 255, 255)), no_rect.move(20, 10))
+    overlay.blit(font_btn.render("YES", True, (255, 255, 255)), yes_rect.move(25, 10))
+    overlay.blit(font_btn.render("NO", True, (255, 255, 255)), no_rect.move(34, 10))
 
     screen.blit(overlay, (0, 0))
     return yes_rect, no_rect
