@@ -51,9 +51,13 @@ def game_screen(screen, clock, game_state):
             if result == "RESTART":
                 return "RESTART"
 
-            if result == "MENU":
+            elif result == "MENU":
                 game_state.state = "MENU"
                 return
+            
+            elif result == "SAVE" : 
+                game_state.state = "SAVE"
+                return "SAVE"
             
         # Spawn fruits depending on difficulty
         if game_state.freeze_timer < 0 : 

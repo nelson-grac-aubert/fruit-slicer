@@ -106,6 +106,6 @@ def game_over_screen(screen, final_score):
                 if menu_rect.collidepoint(event.pos):
                     return "MENU"
                 if save_rect.collidepoint(event.pos):
-                    return "SAVE_SCORE"
+                    return "SAVE"
 
         pygame.display.flip()

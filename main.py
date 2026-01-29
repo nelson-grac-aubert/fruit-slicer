@@ -12,6 +12,7 @@ from main_menu_display import *
 from game_screen import game_screen
 from gameplay_loop import * 
 from score_screen import score_screen
+from score_management import open_player_name_input, save_score
 
 # Music
 load_music("assets/sounds/synthwave.mp3")
@@ -72,11 +73,14 @@ def main():
                         decision = game_screen(screen, clock, game_state)
 
                         if decision == "RESTART":
-                            continue   # Start new game
-                        # elif decision == "SAVE" :
-                        #     FUNCTION TO SAVE PLAYER NAME AND SCORE
+                            continue                    # Start new game
 
-                        break          # Back to main menu
+                        elif decision == "SAVE" :       # Save player score
+                            name = open_player_name_input(screen, game_state)
+                            save_score(game_state, name)
+                            game_state.state = "MENU"
+
+                        break                            # Back to main menu
                         
                 if difficulty_button_click(event, difficulty_rect):
                     difficulty_index = (difficulty_index + 1) % len(difficulty_levels)
