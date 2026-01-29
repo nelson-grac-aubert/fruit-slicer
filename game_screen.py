@@ -80,6 +80,7 @@ def game_screen(screen, clock, game_state, music_muted, sound_muted):
             # Sound buttons
             music_muted = button_music_click(event, music_rect, music_muted)
             sound_muted = button_sound_click(event, sound_rect, sound_muted)
+            game_state.sound_muted = sound_muted
             
             if event.type == pygame.KEYDOWN:
                 handle_key_press(event.key, game_state)

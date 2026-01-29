@@ -15,7 +15,7 @@ class GameState:
         self.combo_count = 0        # Amount of fruits cut in a short time
         self.combo_timer = 0        # To evaluate the short time
         self.score_popup = None     # Popup to display combo bonus score
-        self.sound_muted = False  # Contrôle des effets sonores
+        self.sound_muted = False    # Sound control
 
 
     def frozen(self):
@@ -134,6 +134,8 @@ class Bomb(FlyingObject):
 
     def on_hit(self, game_state):
         """ When the object letter is input by the player """
+        if not game_state.sound_muted:
+            load_sound("assets/sounds/bomb.wav").play()
         game_state.lives -= 3 
 
 
