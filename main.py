@@ -13,10 +13,7 @@ from game_screen import game_screen
 from gameplay_loop import * 
 from score_screen import score_screen
 from score_management import open_player_name_input, save_score
-
-# Initialize language system
 from language import *
-current_language = ActiveLanguage()
 
 # Music
 load_music("assets/sounds/synthwave.mp3")
@@ -60,7 +57,7 @@ def main():
             draw_sound_button(screen, sound_muted, sound_img, sound_muted_img, sound_rect)
             draw_language_button(screen, current_language, french_image, english_image, french_image_rectangle)
             draw_menu_fruits(screen)
-            play_rect = new_game_button(screen)
+            play_rect = new_game_button(screen,current_language)
             difficulty_rect = draw_difficulty_button(screen, current_difficulty)
             score_rect = draw_score_button(screen)
             exit_rect = draw_exit_button(screen)
