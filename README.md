@@ -12,11 +12,21 @@ No mouse input — all gameplay is driven by the keyboard.
 - Simple score system and UI
 
 ## Dependencies
-Install Pygame:
+
+### Download and install Python (Windows)
+```bash
+winget install Python.Python.3
+```
+#### Verify installation
+```bash
+python --version
+pip --version
+```
+### Install Pygame:
 ```bash
 pip install pygame
 ```
-Standard libraries used : random, time
+#### Standard libraries used : random, time
 
 ## Build with pyinstaller 
 ```bash
