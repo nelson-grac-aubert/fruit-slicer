@@ -19,6 +19,7 @@ class ActiveLanguage:
                 "wish": "Do you wish to exit game?",
                 "your_score": "Your score:",
                 "save_score": "Save score",
+                "enter_score": "Enter your name then press Enter:",
                 "play_again": "Play again",
                 "main_menu": "Main menu",
             },
@@ -34,6 +35,7 @@ class ActiveLanguage:
                 "wish": "Souhaitez-vous quitter le jeu?",
                 "your_score": "Votre score:",
                 "save_score": "Sauver score",
+                "enter_score": "Entrez votre nom puis appuyez sur Entrée:",
                 "play_again": "Rejouer",
                 "main_menu": "Menu principal",
             }
