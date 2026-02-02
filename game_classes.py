@@ -22,6 +22,7 @@ class GameState:
         """ True for 3-5 seconds seconds after activating ice cube """
         return self.freeze_timer > 0
 
+
     def register_hit(self):
         """ Called each time a fruit is hit to update combo logic """
         # Calculate miliseconds using pygame
@@ -40,10 +41,11 @@ class GameState:
         if self.combo_count == 3 and now - self.combo_timer <= 400:
             return 3  # +3 points for 3 fruits cut in 400ms
         if self.combo_count == 4 and now - self.combo_timer <= 600:
-            return 4  # +6 points for 2 fruits cut in 600ms
+            return 5  # +5 points for 4 fruits cut in 600ms
 
         return 0
     
+
     def show_score_popup(self, text):
         """ Gives the combo text, its miliseconds duration, its transparency (255 = 1)"""
         self.score_popup = {
@@ -65,6 +67,7 @@ class FlyingObject:
 
         self.font = load_font("assets/fonts/roboto.ttf", 50)
         self.text_surface = self.font.render(self.letter, True, (255, 255, 255))
+
 
     def update(self, game_state):
         """ Move the object on each frame """
@@ -106,18 +109,25 @@ class Fruit(FlyingObject):
 
     def on_hit(self, game_state):
         """ When the object letter is input by the player """
+
+        # Play sound
         if not game_state.sound_muted:
             self.sound.play()
+
+        # Add point, handle bonus
         game_state.score += self.points
         bonus = game_state.register_hit()
         game_state.score += bonus
         if bonus > 0:
             game_state.show_score_popup(f"COMBO +{bonus}!")
+
         # Add particle effect 
         game_state.active_particles.append(Slice((self.x, self.y)))
 
     def on_miss(self, game_state):
         """ When the object disappears from bottom of the screen """
+
+        # Lose a life
         game_state.lives -= 1
 
 class GoldApple(Fruit):
@@ -134,7 +144,7 @@ class IceCube(FlyingObject):
         """ When the object letter is input by the player """
         if not game_state.sound_muted:
             load_sound("assets/sounds/ice.mp3").play()
-        game_state.freeze_timer = random.randint(180,300)  # 3-5 seconds at 60 FPS
+        game_state.freeze_timer = random.randint(180,300)  # 3-5 seconds freeze at 60 FPS
         # Add particle effect 
         game_state.active_particles.append(IceWind((self.x, self.y)))
 
@@ -159,11 +169,12 @@ class ParticleEffect:
     def __init__(self, position):
         """ Initialize a slice particle effect at given position """
         
-        self.position = position                # Center position of the effect
-        self.frame_index = 0                    # Current frame index
-        self.tick = 0                           # Counter to slow down animation
-        self.finished = False                   # True when animation is over
-        self.rotation = random.randint(-20, 20)    # Rotation for variations
+        self.position = position                    # Center position of the effect
+        self.frame_index = 0                        # Current frame index
+        self.tick = 0                               # Counter to slow down animation
+        self.finished = False                       # True when animation is over
+        self.rotation = random.randint(-20, 20)     # Rotation for variations
+
 
     def update(self):
         """ Update the animation state each frame """
@@ -179,6 +190,7 @@ class ParticleEffect:
         if self.frame_index >= len(self.frames):
             self.finished = True
 
+
     def draw(self, screen):
         """ Draw the current frame of the effect """
         if not self.finished:
@@ -193,14 +205,16 @@ class Slice(ParticleEffect) :
         # Load all slice frames once
         self.frames = [load_image(f"assets/images/animations/slice{i}.png") for i in range(1,9)]
 
+
 class IceWind(ParticleEffect) : 
     def __init__(self, position) : 
         super().__init__(position)
-        # Load all slice frames once
+        # Load all ice explosion frames once
         self.frames = [load_image(f"assets/images/animations/icewind{i}.png") for i in range(1,9)]
+
 
 class Explosion(ParticleEffect) : 
     def __init__(self, position) : 
         super().__init__(position)
-        # Load all slice frames once
+        # Load all bomb explosion frames once
         self.frames = [load_image(f"assets/images/animations/explosion{i}.png") for i in range(1,9)]

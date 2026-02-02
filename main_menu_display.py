@@ -130,6 +130,7 @@ def draw_difficulty_button(screen, current_level):
 
     return button_rect
 
+
 def draw_score_button(screen):
     """ Draw score screen button under difficulty button """
 
@@ -155,6 +156,7 @@ def draw_score_button(screen):
     screen.blit(text_surface, text_rect)
 
     return button_rect
+
 
 def draw_back_button(screen, hover_scale=1.15):
     """ Draws the back to main menu button with hover zoom effect."""
@@ -213,6 +215,7 @@ def draw_rotating_fruit(screen, image_path, position):
 
     # Draw
     screen.blit(rotated, rect)
+
 
 def draw_menu_fruits(screen):
     """ Draws menu rotating fruits on main screen """

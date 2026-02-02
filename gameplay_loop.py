@@ -89,8 +89,7 @@ def spawn_fruit(game_state) :
     speed = get_random_initial_speed(pos[0])
     fruit = Fruit(get_random_fruit_image(),
                   get_random_character(game_state.difficulty, game_state),
-                  pos,
-                  speed)
+                  pos, speed)
     game_state.active_objects.append(fruit) # And add it to the list to be tracked
 
 
@@ -122,7 +121,7 @@ def spawn_item(game_state):
 
     settings = DIFFICULTY_SETTINGS[game_state.difficulty]
 
-    # Random allows to add % of chance when chosing, sett difficulty_settings.py to edit
+    # Random allows to add % of chance when chosing, see difficulty_settings.py to edit
     items = [spawn_fruit, spawn_bomb, spawn_ice, spawn_gold_apple]
     weights = settings["weights"]
     chosen = random.choices(items, weights=weights, k=1)[0]
@@ -153,6 +152,7 @@ def draw_all_fruits(screen, game_state):
 
     for obj in game_state.active_objects:
         obj.draw(screen)
+
 
 def update_all_particles(screen, game_state):
     """ Update and draw all active particle effects """
