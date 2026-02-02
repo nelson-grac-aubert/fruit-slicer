@@ -80,3 +80,6 @@ def language_button_click(event, rect, current_language):
     """ Mute/unmute sound behavior """
     if event.type == pygame.MOUSEBUTTONDOWN and rect.collidepoint(event.pos):
         current_language.swap_language()
+
+# Initialize language system*
+current_language = ActiveLanguage()

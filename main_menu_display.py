@@ -1,5 +1,6 @@
 import pygame
 from game_assets import load_font, load_image, resource_path
+from language import current_language
 
 def draw_title(screen):
     """ Draws Title on Main Screen """
@@ -15,7 +16,7 @@ def draw_title(screen):
     title_rect = title_surface.get_rect(center = title_position)
     screen.blit(title_surface, title_rect)
 
-def new_game_button(screen):
+def new_game_button(screen, current_language):
     """ Draws New Game button on Main Screen """
 
     # Centered horizontally, below title
@@ -35,7 +36,7 @@ def new_game_button(screen):
 
     # Text
     font = pygame.font.Font(resource_path("assets/fonts/pixelify_sans.ttf"), 48)
-    text_surface = font.render("New Game", True, (255, 255, 255))
+    text_surface = font.render(f"{current_language.new_game}", True, (255, 255, 255))
     text_rect = text_surface.get_rect(center=button_rect.center)
     screen.blit(text_surface, text_rect)
 
