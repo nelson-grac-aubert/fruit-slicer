@@ -47,9 +47,8 @@ def main():
 
         if game_state.state == "MENU":
 
-            screen.blit(background, (0, 0))
-
             # UI 
+            screen.blit(background, (0, 0))
             draw_title(screen)
             draw_music_button(screen, music_muted, music_img, music_muted_img, music_rect)
             draw_sound_button(screen, sound_muted, sound_img, sound_muted_img, sound_rect)
@@ -59,7 +58,7 @@ def main():
             score_rect = draw_score_button(screen)
             exit_rect = draw_exit_button(screen)
 
-            # EVENTS
+            # Events
             for event in pygame.event.get():
 
                 if event.type == pygame.QUIT:
@@ -83,7 +82,7 @@ def main():
                             return
                         if no_rect and no_rect.collidepoint(event.pos):
                             show_exit_confirm = False
-                    continue  # ignore other buttons while popup is open
+                    continue  # Ignore other buttons while popup is open
 
                 # New game
                 if game_button_click(event, play_rect):
@@ -101,13 +100,14 @@ def main():
                             game_state.state = "MENU"
 
                         break                            # Back to main menu
-                        
+
+                # Difficulty button       
                 if difficulty_button_click(event, difficulty_rect):
                     difficulty_index = (difficulty_index + 1) % len(difficulty_levels)
                     current_difficulty = difficulty_levels[difficulty_index]
                     game_state.difficulty = current_difficulty
 
-                # Score
+                # Open score screen button 
                 if score_button_click(event, score_rect):
                     decision, music_muted, sound_muted = score_screen(
                         screen, clock, game_state, background,
@@ -118,7 +118,7 @@ def main():
                     if decision == "QUIT":
                         return
 
-            # Draw confirmation popup if needed
+            # Draw confirmation popup on exit button
             if show_exit_confirm:
                 yes_rect, no_rect = draw_exit_confirmation(screen)
 

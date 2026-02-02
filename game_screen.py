@@ -15,7 +15,6 @@ def game_screen(screen, clock, game_state, music_muted, sound_muted):
     game_over_delay = None
 
     # Sound buttons
-
     music_img, music_muted_img, music_rect = load_music_images()
     sound_img, sound_muted_img, sound_rect = load_sound_images()
 

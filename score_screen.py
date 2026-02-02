@@ -48,10 +48,9 @@ def score_screen(screen, clock, game_state, background,
                  sound_img, sound_muted_img, sound_rect):
 
     while True:
-        # Background
-        screen.blit(background, (0, 0))
-
+        
         # UI
+        screen.blit(background, (0, 0))
         draw_title(screen)
         draw_scores(screen)
         draw_music_button(screen, music_muted, music_img, music_muted_img, music_rect)

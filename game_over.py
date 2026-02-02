@@ -94,7 +94,7 @@ def game_over_screen(screen, final_score):
         play_rect = draw_play_again_button(screen)
         menu_rect = draw_main_menu_button(screen)
 
-
+        # Events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()

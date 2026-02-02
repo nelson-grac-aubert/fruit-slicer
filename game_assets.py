@@ -25,6 +25,7 @@ def load_image(path: str) -> pygame.Surface:
     except Exception as e:
         raise FileNotFoundError(f"Can't load image : {full_path}\n{e}")
 
+
 def load_music(path: str) -> None:
     """ Load music through resource_path """
     full_path = resource_path(path)
@@ -32,6 +33,7 @@ def load_music(path: str) -> None:
         pygame.mixer.music.load(full_path)
     except Exception as e:
         raise FileNotFoundError(f"Can't load music : {full_path}\n{e}")
+
 
 def load_sound(path: str) -> pygame.mixer.Sound:
     """ Load sound through resource_path """
