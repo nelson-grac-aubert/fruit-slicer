@@ -73,7 +73,7 @@ def draw_exit_confirmation(screen):
     overlay.fill((0, 0, 0, 180)) 
 
     # Draw rectangle around buttons
-    pygame.draw.rect(overlay, (50, 50, 50), (400, 250, 400, 200), border_radius=12)
+    pygame.draw.rect(overlay, (50, 50, 50), (375, 250, 450, 180), border_radius=12)
     font = pygame.font.Font(resource_path("assets/fonts/pixelify_sans.ttf"), 28)
     text = font.render(f"{current_language.wish}", True, (255, 255, 255))
     overlay.blit(text, text.get_rect(center=(600, 290)))
