@@ -13,6 +13,7 @@ from game_screen import game_screen
 from gameplay_loop import * 
 from score_screen import score_screen
 from score_management import open_player_name_input, save_score
+from language import * 
 
 # Music
 load_music("assets/sounds/synthwave.mp3")
@@ -26,9 +27,10 @@ background = load_image("assets/images/background.png")
 
 game_state = GameState()
 
-# Sound init
+# Buttons init
 music_img, music_muted_img, music_rect = load_music_images()
 sound_img, sound_muted_img, sound_rect = load_sound_images()
+french_image, english_image, french_image_rectangle = load_language_button()
 
 
 def main():
@@ -52,9 +54,10 @@ def main():
             draw_title(screen)
             draw_music_button(screen, music_muted, music_img, music_muted_img, music_rect)
             draw_sound_button(screen, sound_muted, sound_img, sound_muted_img, sound_rect)
+            draw_language_button(screen, current_language, french_image, english_image, french_image_rectangle)
             draw_menu_fruits(screen)
-            play_rect = new_game_button(screen)
-            difficulty_rect = draw_difficulty_button(screen, current_difficulty)
+            play_rect = new_game_button(screen, current_language)
+            difficulty_rect = draw_difficulty_button(screen, current_difficulty, current_language)
             score_rect = draw_score_button(screen)
             exit_rect = draw_exit_button(screen)
 
@@ -69,6 +72,7 @@ def main():
                 music_muted = button_music_click(event, music_rect, music_muted)
                 sound_muted = button_sound_click(event, sound_rect, sound_muted)
                 game_state.sound_muted = sound_muted
+                language_button_click(event, french_image_rectangle, current_language)
 
                 # Exit button
                 if exit_button_click(event, exit_rect):

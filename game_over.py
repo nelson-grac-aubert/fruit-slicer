@@ -1,5 +1,6 @@
 import pygame
 from game_assets import * 
+from language import current_language
 
 def draw_game_over_title(screen):
     """ Blits Game Over Title on game loss """
@@ -25,7 +26,7 @@ def display_final_score(screen, final_score) :
 
     # Final score
     font = load_font("assets/fonts/pixelify_sans.ttf", 48)
-    text = font.render(f"YOUR SCORE : {final_score}", True, (255, 255, 255))
+    text = font.render(f"{current_language.your_score} : {final_score}", True, (255, 255, 255))
     rect = text.get_rect(center=(600, 275))
 
     # Make a black rectangle bigger than the text rectangle  
@@ -40,7 +41,7 @@ def draw_save_score_button(screen) :
 
     # Final score
     font = load_font("assets/fonts/pixelify_sans.ttf", 48)
-    text = font.render(f"SAVE SCORE", True, (255, 255, 255))
+    text = font.render(f"{current_language.save_score}", True, (255, 255, 255))
     rect = text.get_rect(center=(600, 375))
 
     # Make a black rectangle bigger than the text rectangle  
@@ -54,7 +55,7 @@ def draw_play_again_button(screen):
 
     # Text
     font = load_font("assets/fonts/pixelify_sans.ttf", 48)
-    text = font.render("PLAY AGAIN", True, (255, 255, 255))
+    text = font.render(f"{current_language.play_again}", True, (255, 255, 255))
     rect = text.get_rect(center=(600, 475))
 
     # Make a black rectangle bigger than the text rectangle 
@@ -69,7 +70,7 @@ def draw_main_menu_button(screen):
 
     # Text
     font = load_font("assets/fonts/pixelify_sans.ttf", 48)
-    text = font.render("MAIN MENU", True, (255, 255, 255))
+    text = font.render(f"{current_language.main_menu}", True, (255, 255, 255))
     rect = text.get_rect(center=(600, 575))
 
     # Make a black rectangle bigger than the text rectangle 

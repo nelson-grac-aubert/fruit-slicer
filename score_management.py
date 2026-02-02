@@ -5,6 +5,7 @@ from game_assets import resource_path
 from game_assets import load_font, load_image
 from sound_control import *
 from main_menu_display import draw_back_button, back_button_click
+from language import current_language
 
 def get_scores() : 
     """ Get scores from scores.json """
@@ -75,7 +76,7 @@ def open_player_name_input(screen, game_state) :
 
         # Text
         text_position = (50,50)
-        instructions_label = input_font.render("Enter your name then press Enter:", True, (255, 255, 255))
+        instructions_label = input_font.render(f"{current_language.enter_score}", True, (255, 255, 255))
         screen.blit(instructions_label, text_position)
 
         # Draw input rectangle
