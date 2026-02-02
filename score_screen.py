@@ -4,6 +4,7 @@ from score_management import get_best_scores
 from sound_control import * 
 from game_assets import * 
 from main_menu_display import draw_back_button
+from language import current_language
 
 def draw_title(screen):
     """ Draws Leaderboard on top of the screen """
@@ -14,7 +15,7 @@ def draw_title(screen):
     title_size = 128
 
     title_font = load_font(("assets/fonts/pixelify_sans.ttf"), title_size)
-    title_surface = title_font.render("Leaderboard", True, title_color)
+    title_surface = title_font.render(f"{current_language.leaderboard}", True, title_color)
     
     title_rect = title_surface.get_rect(center = title_position)
     screen.blit(title_surface, title_rect)

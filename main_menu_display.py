@@ -75,7 +75,7 @@ def draw_exit_confirmation(screen):
     # Draw rectangle around buttons
     pygame.draw.rect(overlay, (50, 50, 50), (400, 250, 400, 200), border_radius=12)
     font = pygame.font.Font(resource_path("assets/fonts/pixelify_sans.ttf"), 28)
-    text = font.render("Do you wish to exit game", True, (255, 255, 255))
+    text = font.render(f"{current_language.wish}", True, (255, 255, 255))
     overlay.blit(text, text.get_rect(center=(600, 290)))
 
     # Buttons rectangle
@@ -86,8 +86,8 @@ def draw_exit_confirmation(screen):
 
     # Buttons Text
     font_btn = pygame.font.Font(resource_path("assets/fonts/pixelify_sans.ttf"), 28)
-    overlay.blit(font_btn.render("YES", True, (255, 255, 255)), yes_rect.move(25, 10))
-    overlay.blit(font_btn.render("NO", True, (255, 255, 255)), no_rect.move(34, 10))
+    overlay.blit(font.render(f"{current_language.yes}", True, (255, 255, 255)), yes_rect.move(25, 10))
+    overlay.blit(font.render(f"{current_language.no}", True, (255, 255, 255)), no_rect.move(34, 10))
 
     screen.blit(overlay, (0, 0))
     return yes_rect, no_rect
@@ -125,7 +125,7 @@ def draw_difficulty_button(screen, current_level):
 
     # Text depends on difficulty
     font = pygame.font.Font(resource_path("assets/fonts/pixelify_sans.ttf"), 36)
-    text_surface = font.render(f"Difficulty : {current_level}", True, (255, 255, 255))
+    text_surface = font.render(f"{current_language.difficulty} : {current_level}", True, (255, 255, 255))
     text_rect = text_surface.get_rect(center=button_rect.center)
     screen.blit(text_surface, text_rect)
 
@@ -151,7 +151,7 @@ def draw_score_button(screen):
 
     # Text
     font = pygame.font.Font(resource_path("assets/fonts/pixelify_sans.ttf"), 36)
-    text_surface = font.render("Leaderboard", True, (255, 255, 255))
+    text_surface = font.render(f"{current_language.leaderboard}", True, (255, 255, 255))
     text_rect = text_surface.get_rect(center=button_rect.center)
     screen.blit(text_surface, text_rect)
 
