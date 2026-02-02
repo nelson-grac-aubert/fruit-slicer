@@ -84,5 +84,24 @@ def language_button_click(event, rect, current_language):
     if event.type == pygame.MOUSEBUTTONDOWN and rect.collidepoint(event.pos):
         current_language.swap_language()
 
+
+def get_difficulty_language(current_level, current_language) : 
+    if current_language.language == "english" : 
+        match current_level : 
+            case "Easy" :
+                return "Easy"
+            case "Medium" : 
+                return "Medium"
+            case "Hard" : 
+                return "Hard"
+    elif current_language.language == "french" : 
+        match current_level : 
+            case "Easy" :
+                return "Facile"
+            case "Medium" : 
+                return "Moyen"
+            case "Hard" : 
+                return "Difficile"
+
 # Initialize language system*
 current_language = ActiveLanguage()

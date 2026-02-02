@@ -58,7 +58,7 @@ def main():
             draw_language_button(screen, current_language, french_image, english_image, french_image_rectangle)
             draw_menu_fruits(screen)
             play_rect = new_game_button(screen, current_language)
-            difficulty_rect = draw_difficulty_button(screen, current_difficulty)
+            difficulty_rect = draw_difficulty_button(screen, current_difficulty, current_language)
             score_rect = draw_score_button(screen)
             exit_rect = draw_exit_button(screen)
 

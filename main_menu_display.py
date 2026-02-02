@@ -1,6 +1,6 @@
 import pygame
 from game_assets import load_font, load_image, resource_path
-from language import current_language
+from language import current_language, get_difficulty_language
 
 def draw_title(screen):
     """ Draws Title on Main Screen """
@@ -93,7 +93,7 @@ def draw_exit_confirmation(screen):
     return yes_rect, no_rect
 
 
-def draw_difficulty_button(screen, current_level):
+def draw_difficulty_button(screen, current_level, current_language):
     """ Draw difficulty button on main screen """
 
     # Centered horizontally, below new game button
@@ -125,7 +125,8 @@ def draw_difficulty_button(screen, current_level):
 
     # Text depends on difficulty
     font = pygame.font.Font(resource_path("assets/fonts/pixelify_sans.ttf"), 36)
-    text_surface = font.render(f"{current_language.difficulty} : {current_level}", True, (255, 255, 255))
+    text_surface = font.render(f"{current_language.difficulty} : {get_difficulty_language(current_level, current_language)}",
+                    True, (255, 255, 255))
     text_rect = text_surface.get_rect(center=button_rect.center)
     screen.blit(text_surface, text_rect)
 
